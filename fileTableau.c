@@ -41,7 +41,7 @@ int est_vide_file(file lafile) // works
 // tester si la file est sature
 int est_sature_file(file lafile)
 {
-   return ((int)(lafile.tete + lafile.queue == maxelem - 1)); // il va returne 1 si tete + queue = max du taille - 1
+   return ((int)(lafile.queue - lafile.tete == maxelem - 1)); // il va returne 1 si tete + queue = max du taille - 1
 }
 
 // *********************************************************************************
@@ -60,7 +60,7 @@ int tasser_file(file *lafile)
       return ((int)-1); //! Erreur : la file n'exist pas
    for (ind = lafile->tete; ind <= lafile->queue; ind++)
       lafile->tableau[ind - lafile->tete] = lafile->tableau[ind];
-   lafile->queue = lafile->queue - lafile->tete;
+   lafile->queue = lafile->queue - lafile->tete; // CHANGER LA VALEUR QUEUE
    lafile->tete = 0;
 
    return ((int)2);
@@ -89,7 +89,10 @@ int defiler_file(file *lafile)
       return ((int)-1); //! Erreur : le tableau n'existe pas
    if (est_vide_file(*lafile))
       return ((int)-2); //! Erreur : le tableau est vide
-   lafile->tete++;
+   if (lafile->tete == lafile->queue)
+      init_file(lafile);
+   else lafile->tete++;
+
    return ((int)0); // Succès
 }
 
