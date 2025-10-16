@@ -127,7 +127,7 @@ liste *supprimer_prem_occu(liste *maliste, int valeur)
    {
       courant = courant->suivant;
    }
-   //verifier si l'element a ete trouve si courant ->suivant est egal null donc est n'ap pas ....
+   // verifier si l'element a ete trouve si courant ->suivant est egal null donc est n'ap pas ....
    if (courant->suivant != NULL)
    {
       liste *cellule_a_supprimer = courant->suivant;
@@ -137,7 +137,47 @@ liste *supprimer_prem_occu(liste *maliste, int valeur)
       return ((liste *)maliste);
    }
 
-   printf("la valeur %d pas trouvee\n",valeur);
+   printf("la valeur %d pas trouvee\n", valeur);
+   return ((liste *)maliste);
+}
+
+// supprimer  tout les occurence d'une valeur
+liste *supprimer_tout_occu(liste *maliste, int valeur)
+{
+   liste *courant;
+   // le cas 1 : la liste est vide
+   if (est_vide_liste(maliste))
+   {
+      printf("la liste est vide");
+      return ((liste *)maliste);
+   }
+
+   // le cas 2 : l'element est trouve au debut
+   while (maliste != NULL && maliste->valeur == valeur)
+   {
+      liste *cellule_a_supprimer = maliste;
+      maliste = maliste->suivant;
+      free(cellule_a_supprimer);
+      printf("Valeur %d supprimée du début\n", valeur);
+   }
+   // le cas 3 : l'element est trouve au mileu ou a la fin
+   // en parcour touts la liste
+   courant = maliste;
+   while (courant->suivant != NULL)
+   {
+      if (courant->suivant->valeur == valeur)
+      {
+         liste *cellule_a_supprimer = courant->suivant;
+         courant->suivant = cellule_a_supprimer->suivant;
+         free(cellule_a_supprimer);
+         printf("Valeur %d supprimée avec success\n", valeur);
+      }
+      else // en passe au suivant si ne supprime pas
+      {
+         courant = courant->suivant;
+      }
+   }
+
    return ((liste *)maliste);
 }
 
@@ -155,16 +195,13 @@ void displayList(liste *maliste)
 int main()
 {
    liste *maliste = (liste *)init_null();
-   maliste = inserer_liste(maliste, 10, 1);
-   maliste = inserer_liste(maliste, 12, 1);
-   maliste = inserer_liste(maliste, 55, 2);
-   maliste = inserer_liste(maliste, 54, 2);
-   maliste = inserer_liste(maliste, 54, 2);
-   maliste = inserer_liste(maliste, 53, 2);
-   maliste = inserer_liste(maliste, 90, 2);
+   maliste = inserer_liste(maliste, 2, 1);
+   maliste = inserer_liste(maliste, 1, 2);
+   maliste = inserer_liste(maliste, 2, 3);
+   maliste = inserer_liste(maliste, 1, 4);
+   maliste = inserer_liste(maliste, 2, 5);
    displayList(maliste);
-   maliste = supprimer(maliste, 1);
-   maliste = supprimer_prem_occu(maliste,55);
+   maliste = supprimer_tout_occu(maliste, 2);
    displayList(maliste);
    return 0;
 }
