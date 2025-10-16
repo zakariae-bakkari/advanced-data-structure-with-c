@@ -209,10 +209,17 @@ liste *modifier_liste(liste *maliste, int position, int new_valeur)
    if (conteur == position)
    {
       courant->valeur = new_valeur;
-      return ((liste*)maliste);
+      return ((liste *)maliste);
    };
    printf("la prosition est invalide!!!\n");
-   return ((liste*)maliste);
+   return ((liste *)maliste);
+}
+
+int taille_liste_recursive(liste *maliste)
+{
+   if (maliste == NULL)
+      return 0;
+   return 1 + taille_liste_recursive(maliste->suivant);
 }
 void displayList(liste *maliste)
 {
@@ -234,10 +241,12 @@ int main()
    maliste = inserer_liste(maliste, 1, 4);
    maliste = inserer_liste(maliste, 2, 5);
    displayList(maliste);
+   printf("taille du la liste est %d \n",taille_liste_recursive(maliste));
    maliste = supprimer_tout_occu(maliste, 2);
    displayList(maliste);
    printf("modification de position 2 avec la valeur de 200\n");
-   maliste = modifier_liste(maliste,2,200);
+   maliste = modifier_liste(maliste, 2, 200);
    displayList(maliste);
+   printf("taille du la liste est %d",taille_liste_recursive(maliste));
    return 0;
 }
