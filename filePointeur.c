@@ -2,28 +2,28 @@
 #include <stdlib.h>
 
 // structure d'une cellule qui divise en deux partie (donnes pointeur)
-typedef struct Noeud
+typedef struct cel
 {
-   int donnes;            // la parite du donnes
-   struct Noeud *suivant; // un pointeur qui point sur l'elment suivant
-} Noeud;
+   int donnes;          // la parite du donnes
+   struct cel *suivant; // un pointeur qui point sur l'elment suivant
+} cellule;
 
 // structure d'une file qui contient  deux pointeur (tete et queue) : concept FIFO
 typedef struct File
 {
-   Noeud *tete;
-   Noeud *queue;
+   cellule *tete;
+   cellule *queue;
 } File;
 
-// creation d'un noeud
-Noeud *createNoeud(int data)
+// creation d'un cellule
+cellule *createCellule(int data)
 {
-   Noeud *cel = (Noeud *)malloc(sizeof(Noeud));
+   cellule *cel = (cellule *)malloc(sizeof(cellule));
    if (!cel)
       return NULL;
    cel->donnes = data;
    cel->suivant = NULL;
-   return ((Noeud *)cel);
+   return ((cellule *)cel);
 }
 // alocation d'une file et l'initialisation des pointeur
 File *createFile()
@@ -35,17 +35,17 @@ File *createFile()
    file->queue = NULL;
    return ((File *)file);
 }
-int est_vide_file(File file)
+int est_vide_file(File *file)
 {
-   return ((int)(file.queue == NULL));
+   return ((int)(file->queue == NULL));
 }
 
 // returner la taille d'un fille en parcourant du tete jusqua  la fin (null)
-int tailleFile(File file)
+int tailleFile(File *file)
 {
    if (est_vide_file(file))
       return 0;
-   Noeud *temp = file.tete;
+   cellule *temp = file->tete;
    int taille = 0;
    while (temp != NULL)
    {
@@ -54,23 +54,29 @@ int tailleFile(File file)
    }
    return taille;
 }
+int taille_recursive_file(cellule *cel)
+{
+   if (est_vide_file(cel))
+      return ((int)0);
+   return 1 + taille_recursive_file(cel->suivant);
+}
 // enfiler la file : ajouter au dernier
 int enfilerFile(File *file, int valeur)
 {
    if (!file)
       return -1;
-   Noeud *newNoeud = createNoeud(valeur);
-   if (!newNoeud)
+   cellule *newcellule = createcellule(valeur);
+   if (!newcellule)
       return -1;
 
-   if (est_vide_file(*file))
+   if (est_vide_file(file))
    {
-      file->tete = file->queue = newNoeud;
+      file->tete = file->queue = newcellule;
    }
    else
    {
-      file->queue->suivant = newNoeud;
-      file->queue = newNoeud;
+      file->queue->suivant = newcellule;
+      file->queue = newcellule;
    }
    return ((int)0);
 }
@@ -79,9 +85,9 @@ int defilerFIle(File *file)
 
    if (!file)
       return ((int)-1);
-   if (est_vide_file(*file))
+   if (est_vide_file(file))
       return ((int)-2);
-   Noeud *copy = file->tete;
+   cellule *copy = file->tete;
    file->tete = file->tete->suivant;
    // reset the queue if the tete is null
    if (file->tete == NULL)
@@ -93,15 +99,15 @@ int defilerFIle(File *file)
    return ((int)1);
 }
 
-void afficherFIle(File file)
+void afficherFIle(File * file)
 {
-   if (est_vide_file(file)) // AJOUT de vérification
+   if (est_vide_file(file)) // AJcerOUT de vérification
    {
       printf("\nFile vide\n");
       return;
    }
 
-   Noeud *temp = file.tete;
+   cellule *temp = file->tete;
    printf("\n");
    printf("tete->");
    while (temp != NULL)
@@ -110,10 +116,9 @@ void afficherFIle(File file)
       temp = temp->suivant;
    }
    printf("NULL\n");
-   printf("\nqueue -> %d", file.queue->donnes);
+   printf("\nqueue -> %d", file->queue->donnes);
    printf("\n");
 }
-
 
 int main()
 {
