@@ -145,6 +145,7 @@ liste *supprimer_prem_occu(liste *maliste, int valeur)
 liste *supprimer_tout_occu(liste *maliste, int valeur)
 {
    liste *courant;
+   int trouve = 0;
    // le cas 1 : la liste est vide
    if (est_vide_liste(maliste))
    {
@@ -159,6 +160,7 @@ liste *supprimer_tout_occu(liste *maliste, int valeur)
       maliste = maliste->suivant;
       free(cellule_a_supprimer);
       printf("Valeur %d supprimée du début\n", valeur);
+      trouve++;
    }
    // le cas 3 : l'element est trouve au mileu ou a la fin
    // en parcour touts la liste
@@ -171,16 +173,47 @@ liste *supprimer_tout_occu(liste *maliste, int valeur)
          courant->suivant = cellule_a_supprimer->suivant;
          free(cellule_a_supprimer);
          printf("Valeur %d supprimée avec success\n", valeur);
+         trouve++;
       }
       else // en passe au suivant si ne supprime pas
       {
          courant = courant->suivant;
       }
    }
+   if (trouve == 0)
+      printf("la valeur %d n'est pas trouve dans la liste \n", valeur);
+   else
+      printf("la valeur %d a ete trouve %d fois (on les supprimer)\n", valeur, trouve);
 
    return ((liste *)maliste);
 }
 
+// modifier valeur d'un position
+liste *modifier_liste(liste *maliste, int position, int new_valeur)
+{
+   liste *courant = maliste;
+   int conteur = 1; // le conteur debut avec 1 (position 1)
+   // cas 1 : si la liste est vide (null)
+   if (est_vide_liste(maliste))
+   {
+      printf("la liste est vide pas de valeurs");
+      return ((liste *)maliste);
+   }
+
+   // cas 2 :
+   while ((conteur != position) && (courant->suivant != NULL))
+   {
+      conteur++;
+      courant = courant->suivant;
+   }
+   if (conteur == position)
+   {
+      courant->valeur = new_valeur;
+      return ((liste*)maliste);
+   };
+   printf("la prosition est invalide!!!\n");
+   return ((liste*)maliste);
+}
 void displayList(liste *maliste)
 {
    liste *current = maliste;
@@ -202,6 +235,9 @@ int main()
    maliste = inserer_liste(maliste, 2, 5);
    displayList(maliste);
    maliste = supprimer_tout_occu(maliste, 2);
+   displayList(maliste);
+   printf("modification de position 2 avec la valeur de 200\n");
+   maliste = modifier_liste(maliste,2,200);
    displayList(maliste);
    return 0;
 }
