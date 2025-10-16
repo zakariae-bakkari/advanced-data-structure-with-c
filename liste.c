@@ -67,6 +67,7 @@ liste *inserer_liste(liste *maliste, int valeur, int position) // complexite O(n
    return ((liste *)maliste);
 }
 
+// supprimer une position donnes
 liste *supprimer(liste *maliste, int position)
 {
    liste *courant = maliste;
@@ -100,6 +101,45 @@ liste *supprimer(liste *maliste, int position)
    printf("Position invalide\n");
    return maliste;
 }
+// supprimer la premier occurence d'une valeur
+liste *supprimer_prem_occu(liste *maliste, int valeur)
+{
+   liste *courant = maliste;
+   // le cas 1 : la liste est vide
+   if (est_vide_liste(maliste))
+   {
+      printf("la liste est vide");
+      return ((liste *)maliste);
+   }
+
+   // le cas 2 : l'element est trouve au debut
+   if (maliste->valeur == valeur)
+   {
+      liste *cellule_a_supprimer = maliste;
+      maliste = maliste->suivant;
+      free(cellule_a_supprimer);
+      return ((liste *)maliste);
+   }
+
+   // le cas 3 : l'element est trouve au mileu ou a la fin
+   // tanque le courant est n'est pas null et lla valeur du suivant et deffer de la valeur a supprimer
+   while (courant->suivant != NULL && courant->suivant->valeur != valeur)
+   {
+      courant = courant->suivant;
+   }
+   //verifier si l'element a ete trouve si courant ->suivant est egal null donc est n'ap pas ....
+   if (courant->suivant != NULL)
+   {
+      liste *cellule_a_supprimer = courant->suivant;
+      courant->suivant = cellule_a_supprimer->suivant;
+      free(cellule_a_supprimer);
+      printf("Valeur %d supprimée avec success\n", valeur);
+      return ((liste *)maliste);
+   }
+
+   printf("la valeur %d pas trouvee\n",valeur);
+   return ((liste *)maliste);
+}
 
 void displayList(liste *maliste)
 {
@@ -118,8 +158,13 @@ int main()
    maliste = inserer_liste(maliste, 10, 1);
    maliste = inserer_liste(maliste, 12, 1);
    maliste = inserer_liste(maliste, 55, 2);
+   maliste = inserer_liste(maliste, 54, 2);
+   maliste = inserer_liste(maliste, 54, 2);
+   maliste = inserer_liste(maliste, 53, 2);
+   maliste = inserer_liste(maliste, 90, 2);
    displayList(maliste);
    maliste = supprimer(maliste, 1);
+   maliste = supprimer_prem_occu(maliste,55);
    displayList(maliste);
    return 0;
 }
