@@ -216,7 +216,8 @@ liste *modifier_liste(liste *maliste, int position, int new_valeur)
 }
 
 // modifier la valeur de touts les valeurs chercher val
-liste *modifier_liste_touts_valeur(liste*maliste,int valeur,int valeur_a_change){
+liste *modifier_liste_touts_valeur(liste *maliste, int valeur, int valeur_a_change)
+{
    liste *courant = maliste;
    int modifications = 0;
 
@@ -234,11 +235,11 @@ liste *modifier_liste_touts_valeur(liste*maliste,int valeur,int valeur_a_change)
       {
          courant->valeur = valeur;
          modifications++;
-         printf("Valeur %d modifiee en %d a la position %d \n",valeur_a_change,valeur,modifications);
+         printf("Valeur %d modifiee en %d a la position %d \n", valeur_a_change, valeur, modifications);
       };
       courant = courant->suivant;
    }
-  
+
    // printf("la prosition est invalide!!!\n");
    return ((liste *)maliste);
 }
@@ -259,7 +260,20 @@ void afficher_liste(liste *maliste)
    }
    printf("NULL\n");
 }
-void afficher_menu() {
+
+void afficher_liste_recursive(liste *maliste)
+{
+   if (est_vide_liste(maliste))
+   {
+      printf("null\n");
+      return;
+   }
+   printf("%d->", maliste->valeur);
+
+   afficher_liste_recursive(maliste->suivant);
+}
+void afficher_menu()
+{
    printf("\n=== Menu ===\n");
    printf("1. Inserer une valeur\n");
    printf("2. Supprimer un element par position\n");
@@ -273,64 +287,67 @@ void afficher_menu() {
    printf("Choix: ");
 }
 
-int main() {
+int main()
+{
    liste *maliste = (liste *)init_null();
    int choix, valeur, position, nouvelle_valeur, valeur_a_changer;
-   
-   do {
+
+   do
+   {
       afficher_menu();
       scanf("%d", &choix);
-      
-      switch (choix) {
-         case 1:
-            printf("Valeur a inserer: ");
-            scanf("%d", &valeur);
-            printf("Position: ");
-            scanf("%d", &position);
-            maliste = inserer_liste(maliste, valeur, position);
-            break;
-         case 2:
-            printf("Position a supprimer: ");
-            scanf("%d", &position);
-            maliste = supprimer(maliste, position);
-            break;
-         case 3:
-            printf("Valeur a supprimer: ");
-            scanf("%d", &valeur);
-            maliste = supprimer_prem_occu(maliste, valeur);
-            break;
-         case 4:
-            printf("Valeur a supprimer: ");
-            scanf("%d", &valeur);
-            maliste = supprimer_tout_occu(maliste, valeur);
-            break;
-         case 5:
-            printf("Position a modifier: ");
-            scanf("%d", &position);
-            printf("Nouvelle valeur: ");
-            scanf("%d", &nouvelle_valeur);
-            maliste = modifier_liste(maliste, position, nouvelle_valeur);
-            break;
-         case 6:
-            printf("Valeur a chercher: ");
-            scanf("%d", &valeur_a_changer);
-            printf("Nouvelle valeur: ");
-            scanf("%d", &valeur);
-            maliste = modifier_liste_touts_valeur(maliste, valeur, valeur_a_changer);
-            break;
-         case 7:
-            afficher_liste(maliste);
-            break;
-         case 8:
-            printf("Taille de la liste: %d\n", taille_liste_recursive(maliste));
-            break;
-         case 0:
-            printf("Au revoir!\n");
-            break;
-         default:
-            printf("Choix invalide!\n");
+
+      switch (choix)
+      {
+      case 1:
+         printf("Valeur a inserer: ");
+         scanf("%d", &valeur);
+         printf("Position: ");
+         scanf("%d", &position);
+         maliste = inserer_liste(maliste, valeur, position);
+         break;
+      case 2:
+         printf("Position a supprimer: ");
+         scanf("%d", &position);
+         maliste = supprimer(maliste, position);
+         break;
+      case 3:
+         printf("Valeur a supprimer: ");
+         scanf("%d", &valeur);
+         maliste = supprimer_prem_occu(maliste, valeur);
+         break;
+      case 4:
+         printf("Valeur a supprimer: ");
+         scanf("%d", &valeur);
+         maliste = supprimer_tout_occu(maliste, valeur);
+         break;
+      case 5:
+         printf("Position a modifier: ");
+         scanf("%d", &position);
+         printf("Nouvelle valeur: ");
+         scanf("%d", &nouvelle_valeur);
+         maliste = modifier_liste(maliste, position, nouvelle_valeur);
+         break;
+      case 6:
+         printf("Valeur a chercher: ");
+         scanf("%d", &valeur_a_changer);
+         printf("Nouvelle valeur: ");
+         scanf("%d", &valeur);
+         maliste = modifier_liste_touts_valeur(maliste, valeur, valeur_a_changer);
+         break;
+      case 7:
+         afficher_liste(maliste);
+         break;
+      case 8:
+         printf("Taille de la liste: %d\n", taille_liste_recursive(maliste));
+         break;
+      case 0:
+         printf("Au revoir!\n");
+         break;
+      default:
+         printf("Choix invalide!\n");
       }
    } while (choix != 0);
-   
+
    return 0;
 }
