@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// structure d'une cellule qui divise en deux partie (donnes pointeur)
+// structure d'une cellule qui divise en deux partie (valeur pointeur)
 typedef struct cel
 {
-   int donnes;          // la parite du donnes
+   int valeur;          // la parite du valeur
    struct cel *suivant; // un pointeur qui point sur l'elment suivant
 } cellule;
 
@@ -16,17 +16,17 @@ typedef struct File
 } File;
 
 // creation d'un cellule
-cellule *createCellule(int data)
+cellule *creeCellule(int valeur)
 {
    cellule *cel = (cellule *)malloc(sizeof(cellule));
    if (!cel)
       return NULL;
-   cel->donnes = data;
+   cel->valeur = valeur;
    cel->suivant = NULL;
    return ((cellule *)cel);
 }
 // alocation d'une file et l'initialisation des pointeur
-File *createFile()
+File *creeFile()
 {
    File *file = (File *)malloc(sizeof(File));
    if (!file)
@@ -35,13 +35,14 @@ File *createFile()
    file->queue = NULL;
    return ((File *)file);
 }
+
 int est_vide_file(File *file)
 {
    return ((int)(file->queue == NULL));
 }
 
 // returner la taille d'un fille en parcourant du tete jusqua  la fin (null)
-int tailleFile(File *file)
+int tailleFile(File *file) // pas correct car il na pas utilise le principe fifo
 {
    if (est_vide_file(file))
       return 0;
@@ -54,6 +55,7 @@ int tailleFile(File *file)
    }
    return taille;
 }
+
 int taille_recursive_file(cellule *cel)
 {
    if (est_vide_file(cel))
@@ -65,7 +67,7 @@ int enfilerFile(File *file, int valeur)
 {
    if (!file)
       return -1;
-   cellule *newcellule = createcellule(valeur);
+   cellule *newcellule = creecellule(valeur);
    if (!newcellule)
       return -1;
 
@@ -94,14 +96,14 @@ int defilerFIle(File *file)
    {
       file->queue = NULL;
    }
-   printf("\nfile->tete = %d \nfile->queue = %d \n", file->tete->donnes, file->queue->donnes);
+   printf("\nfile->tete = %d \nfile->queue = %d \n", file->tete->valeur, file->queue->valeur);
    free(copy);
    return ((int)1);
 }
 
 void afficherFIle(File * file)
 {
-   if (est_vide_file(file)) // AJcerOUT de vérification
+   if (est_vide_file(file)) // AJOUT de vérification
    {
       printf("\nFile vide\n");
       return;
@@ -112,11 +114,11 @@ void afficherFIle(File * file)
    printf("tete->");
    while (temp != NULL)
    {
-      printf("|%d|->", temp->donnes);
+      printf("|%d|->", temp->valeur);
       temp = temp->suivant;
    }
    printf("NULL\n");
-   printf("\nqueue -> %d", file->queue->donnes);
+   printf("\nqueue -> %d", file->queue->valeur);
    printf("\n");
 }
 
