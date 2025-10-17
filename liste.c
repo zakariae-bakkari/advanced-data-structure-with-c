@@ -259,23 +259,23 @@ void displayList(liste *maliste)
    }
    printf("NULL\n");
 }
-
 void afficher_menu() {
    printf("\n=== Menu ===\n");
    printf("1. Inserer une valeur\n");
    printf("2. Supprimer un element par position\n");
    printf("3. Supprimer premiere occurrence d'une valeur\n");
    printf("4. Supprimer toutes les occurrences d'une valeur\n");
-   printf("5. Modifier une valeur\n");
-   printf("6. Afficher la liste\n");
-   printf("7. Afficher la taille de la liste\n");
+   printf("5. Modifier une valeur par position\n");
+   printf("6. Modifier toutes les occurrences d'une valeur\n");
+   printf("7. Afficher la liste\n");
+   printf("8. Afficher la taille de la liste\n");
    printf("0. Quitter\n");
    printf("Choix: ");
 }
 
 int main() {
    liste *maliste = (liste *)init_null();
-   int choix, valeur, position, nouvelle_valeur;
+   int choix, valeur, position, nouvelle_valeur, valeur_a_changer;
    
    do {
       afficher_menu();
@@ -312,9 +312,16 @@ int main() {
             maliste = modifier_liste(maliste, position, nouvelle_valeur);
             break;
          case 6:
-            displayList(maliste);
+            printf("Valeur a chercher: ");
+            scanf("%d", &valeur_a_changer);
+            printf("Nouvelle valeur: ");
+            scanf("%d", &valeur);
+            maliste = modifier_liste_touts_valeur(maliste, valeur, valeur_a_changer);
             break;
          case 7:
+            displayList(maliste);
+            break;
+         case 8:
             printf("Taille de la liste: %d\n", taille_liste_recursive(maliste));
             break;
          case 0:
