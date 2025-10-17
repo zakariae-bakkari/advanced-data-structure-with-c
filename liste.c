@@ -249,7 +249,7 @@ int taille_liste_recursive(liste *maliste)
    return 1 + taille_liste_recursive(maliste->suivant);
 }
 
-void displayList(liste *maliste)
+void afficher_liste(liste *maliste)
 {
    liste *current = maliste;
    while (current != NULL)
@@ -319,7 +319,7 @@ int main() {
             maliste = modifier_liste_touts_valeur(maliste, valeur, valeur_a_changer);
             break;
          case 7:
-            displayList(maliste);
+            afficher_liste(maliste);
             break;
          case 8:
             printf("Taille de la liste: %d\n", taille_liste_recursive(maliste));
