@@ -215,6 +215,33 @@ liste *modifier_liste(liste *maliste, int position, int new_valeur)
    return ((liste *)maliste);
 }
 
+// modifier la valeur de touts les valeurs chercher val
+liste *modifier_liste_touts_valeur(liste*maliste,int valeur,int valeur_a_change){
+   liste *courant = maliste;
+   int modifications = 0;
+
+   // cas 1 : si la liste est vide (null)
+   if (est_vide_liste(maliste))
+   {
+      printf("la liste est vide pas de valeurs");
+      return ((liste *)maliste);
+   }
+
+   // cas 2 :
+   while (courant != NULL)
+   {
+      if (courant->valeur == valeur_a_change)
+      {
+         courant->valeur = valeur;
+         modifications++;
+         printf("Valeur %d modifiee en %d a la position %d \n",valeur_a_change,valeur,modifications);
+      };
+      courant = courant->suivant;
+   }
+  
+   // printf("la prosition est invalide!!!\n");
+   return ((liste *)maliste);
+}
 int taille_liste_recursive(liste *maliste)
 {
    if (maliste == NULL)
