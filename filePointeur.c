@@ -58,7 +58,7 @@ int tailleFile(File *file) // pas correct car il na pas utilise le principe fifo
 
 int taille_recursive_file(cellule *cel)
 {
-   if (est_vide_file(cel))
+   if (cel == NULL)
       return ((int)0);
    return 1 + taille_recursive_file(cel->suivant);
 }
@@ -67,10 +67,8 @@ int enfilerFile(File *file, int valeur)
 {
    if (!file)
       return -1;
-   cellule *newcellule = creecellule(valeur);
-   if (!newcellule)
-      return -1;
-
+   cellule *newcellule = creeCellule(valeur);
+   // si la file est vide
    if (est_vide_file(file))
    {
       file->tete = file->queue = newcellule;
@@ -84,12 +82,15 @@ int enfilerFile(File *file, int valeur)
 }
 int defilerFIle(File *file)
 {
-
+   // verifer l'allocation de la file
    if (!file)
-      return ((int)-1);
+      return ((int)-1); //! Error d'allocation
+   // verifer si la file est vide
    if (est_vide_file(file))
-      return ((int)-2);
-   cellule *copy = file->tete;
+      return ((int)-2); //! Error file vide
+
+   // defiler l'element du tete en resurvant l'adresse de la cellule a supprimer
+   cellule *copy = file->tete; // sauvegarder l'adresse de la tete
    file->tete = file->tete->suivant;
    // reset the queue if the tete is null
    if (file->tete == NULL)
@@ -101,27 +102,73 @@ int defilerFIle(File *file)
    return ((int)1);
 }
 
-void afficherFIle(File * file)
+void afficher_file_recursive(cellule *cel) // une triche pour utiliser la recursion
 {
-   if (est_vide_file(file)) // AJOUT de vérification
-   {
-      printf("\nFile vide\n");
+   if (est_vide_file(cel)) // condition d'arret
       return;
-   }
-
-   cellule *temp = file->tete;
-   printf("\n");
-   printf("tete->");
-   while (temp != NULL)
-   {
-      printf("|%d|->", temp->valeur);
-      temp = temp->suivant;
-   }
-   printf("NULL\n");
-   printf("\nqueue -> %d", file->queue->valeur);
-   printf("\n");
+   printf("%d ", cel->valeur);            // afficher la valeur de la tete
+   afficher_file_recursive(cel->suivant); // appel recursif avec le suivant de la tete
 }
 
+// affichier en utilsant une copie de la file
+void afficher(File *file)
+{
+   int address_du_tete = &file->tete;
+   File *courant = file;
+   do
+   {
+      File *PremierElement = file->tete;
+      // afficher touts d'abord
+      printf("%d->", file->tete->valeur);
+      // changer la tete difiler
+      file->tete = file->tete->suivant;
+      // enfiler le premier element
+      file->queue->suivant = PremierElement;
+      file->queue = PremierElement;
+
+   } while (&file->tete != address_du_tete);
+}
+
+void executerMenu()
+{
+   File *file = creeFile();
+   int choix, valeur;
+   do
+   {
+      printf("\nMenu:\n");
+      printf("1. Enfiler un element\n");
+      printf("2. Defiler un element\n");
+      printf("3. Afficher la taille de la file\n");
+      printf("4. Afficher les elements de la file\n");
+      printf("5. Quitter\n");
+      printf("Entrez votre choix: ");
+      scanf("%d", &choix);
+      switch (choix)
+      {
+      case 1:
+         printf("Entrez la valeur a enfiler: ");
+         scanf("%d", &valeur);
+         enfilerFile(file, valeur);
+         break;
+      case 2:
+         defilerFIle(file);
+         break;
+      case 3:
+         printf("Taille de la file: %d\n", tailleFile(file));
+         break;
+      case 4:
+         printf("Elements de la file: ");
+         afficher_file_recursive(file);
+         printf("\n");
+         break;
+      case 5:
+         printf("Quitter le programme.\n");
+         break;
+      default:
+         printf("Choix invalide. Veuillez reessayer.\n");
+      }
+   } while (choix != 5);
+}
 int main()
 {
    executerMenu();

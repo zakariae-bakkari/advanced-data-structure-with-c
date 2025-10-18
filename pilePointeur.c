@@ -51,16 +51,16 @@ Pile *empiler_pile(Pile *pile, int valeur)
 
    return ((Pile *)pile);
 };
-Pile *depiler_pile(Pile *pile){
+Pile *depiler_pile(Pile *pile)
+{
    if (!pile)
       return NULL;
-   Pile * temp=pile;
+   Pile *temp = pile;
    pile = pile->suivant;
    free(temp);
-   return((Pile*)pile);
-   
+   return ((Pile *)pile);
 }
-void affichier_recursive(Pile* pile)
+void affichier_recursive(Pile *pile)
 {
    if (!est_vide_pile(pile))
    {
@@ -68,7 +68,23 @@ void affichier_recursive(Pile* pile)
       affichier_recursive(pile->suivant);
    }
 }
-
+void afficher_pile(Pile *mapile)
+{
+   Pile *tmp;
+   tmp = init_pile();
+   while (mapile)
+   {
+      printf("%d ", mapile->valeur);
+      tmp = empiler_pile(tmp, mapile->valeur);
+      mapile = depiler_pile(mapile);
+   }
+   while (tmp)
+   {
+      mapile = empiler_pile(mapile, tmp->valeur);
+      tmp = depiler_pile(tmp);
+   }
+   free(tmp);
+}
 // Fonction pour afficher les options du menu
 void afficherMenu()
 {
@@ -107,7 +123,8 @@ void executerMenu()
          break;
 
       case 2:
-         if (!est_vide_pile(mapile)) {
+         if (!est_vide_pile(mapile))
+         {
             mapile = depiler_pile(mapile);
             printf("Element depile avec succes.\n");
          }
@@ -117,7 +134,7 @@ void executerMenu()
 
       case 3:
          if (!est_vide_pile(mapile))
-            affichier_recursive(mapile);
+             afficher_pile(mapile);
          else
             printf("La pile est vide!\n");
          break;
