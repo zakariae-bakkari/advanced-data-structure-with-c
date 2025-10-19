@@ -37,8 +37,9 @@ File *creeFile()
 }
 
 int est_vide_file(File *file)
-{
-   return ((int)(file->queue == NULL));
+{  
+   
+   return ((int)(!file->tete && !file->queue));// une seul est sufisante
 }
 
 // returner la taille d'un fille en parcourant du tete jusqua  la fin (null)
@@ -100,14 +101,6 @@ int defilerFIle(File *file)
    printf("\nfile->tete = %d \nfile->queue = %d \n", file->tete->valeur, file->queue->valeur);
    free(copy);
    return ((int)1);
-}
-
-void afficher_file_recursive(cellule *cel) // une triche pour utiliser la recursion
-{
-   if (est_vide_file(cel)) // condition d'arret
-      return;
-   printf("%d ", cel->valeur);            // afficher la valeur de la tete
-   afficher_file_recursive(cel->suivant); // appel recursif avec le suivant de la tete
 }
 
 // affichier en utilsant une copie de la file

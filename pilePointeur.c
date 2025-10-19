@@ -142,7 +142,6 @@ void executerMenu()
       case 4:
          printf("Taille de la pile: %d\n", taille_recursive_pile(mapile));
          break;
-
       case 0:
          printf("Fin du programme...\n");
          // Liberer la memoire avant de quitter

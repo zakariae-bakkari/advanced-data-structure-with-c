@@ -190,7 +190,7 @@ int main()
       case 3: // defiler
          resultat = defiler_file(ptrFile);
          if (resultat == 0)
-            printf("la valeur %d est inserer avec success", valeur);
+         printf("Un élément a été retiré avec succès.\n");
          else
             errors_message_file(resultat);
          printf("\ntete=%d,queue=%d", ptrFile->tete, ptrFile->queue);
