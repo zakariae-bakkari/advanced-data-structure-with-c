@@ -192,25 +192,70 @@ void tableau_garder_premiere_occurrence_optimise(int tab[TAILLE], int *taille, i
 int main()
 {
    int tab[TAILLE], nbsaisie;
-
-   // Saisir et afficher le tableau initial
+   int choix, valeur, position;
+   
+   // Saisir le tableau initial
    nbsaisie = tableau_saisir_taille();
    tableau_saisir_elements(tab, nbsaisie);
-   printf("\nTableau initial:\n");
-   tableau_afficher(tab, nbsaisie);
-
-   // Supprimer les répétitions du nombre
-   // printf("\nEntrer un nombre a supprimer: ");
-   int nombre_a_supprimer;
-   // scanf("%d", &nombre_a_supprimer);
-   // tableau_supprimer_valeur(tab, &nbsaisie, nombre_a_supprimer);
-   // tableau_afficher(tab, nbsaisie);
-
-   // Supprimer les répétitions du nombre (garder première occurrence)
-   printf("\nEntrer un nombre a supprimer (toutes occurrences sauf la premiere): ");
-   scanf("%d", &nombre_a_supprimer);
-   tableau_garder_premiere_occurrence_optimise(tab, &nbsaisie, nombre_a_supprimer);
-   tableau_afficher(tab, nbsaisie);
+   
+   do {
+      // Afficher le menu
+      printf("\n------ MENU ------\n");
+      printf("1. Afficher le tableau\n");
+      printf("2. Ajouter un element\n");
+      printf("3. Supprimer un element par position\n");
+      printf("4. Supprimer toutes les occurrences d'une valeur\n");
+      printf("5. Garder uniquement la premiere occurrence d'une valeur\n");
+      printf("6. Trouver l'indice du minimum\n");
+      printf("0. Quitter\n");
+      printf("Votre choix: ");
+      scanf("%d", &choix);
+      
+      switch (choix) {
+         case 1:
+            printf("\nContenu du tableau:\n");
+            tableau_afficher(tab, nbsaisie);
+            break;
+            
+         case 2:
+            printf("Position d'insertion (0-%d): ", nbsaisie);
+            scanf("%d", &position);
+            printf("Valeur a ajouter: ");
+            scanf("%d", &valeur);
+            tableau_ajouter_element(tab, &nbsaisie, position, valeur);
+            break;
+            
+         case 3:
+            printf("Position de l'element a supprimer (0-%d): ", nbsaisie-1);
+            scanf("%d", &position);
+            tableau_supprimer_element(tab, &nbsaisie, position);
+            break;
+            
+         case 4:
+            printf("Valeur a supprimer: ");
+            scanf("%d", &valeur);
+            tableau_supprimer_valeur_optimise(tab, &nbsaisie, valeur);
+            break;
+            
+         case 5:
+            printf("Valeur dont il faut garder uniquement la premiere occurrence: ");
+            scanf("%d", &valeur);
+            tableau_garder_premiere_occurrence_optimise(tab, &nbsaisie, valeur);
+            break;
+            
+         case 6:
+            position = tableau_trouver_min_indice(tab, nbsaisie);
+            printf("Le minimum %d se trouve a l'indice %d\n", tab[position], position);
+            break;
+            
+         case 0:
+            printf("Au revoir!\n");
+            break;
+            
+         default:
+            printf("Choix invalide. Veuillez reessayer.\n");
+      }
+   } while (choix != 0);
 
    return 0;
 }
