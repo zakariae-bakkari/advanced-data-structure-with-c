@@ -106,20 +106,18 @@ int defilerFIle(File *file)
 // affichier en utilsant une copie de la file
 void afficher(File *file)
 {
-   int address_du_tete = &file->tete;
-   File *courant = file;
-   do
+   if (est_vide_file(file)) {
+      printf("File vide\n");
+      return;
+   }
+   
+   cellule *temp = file->tete;
+   while (temp != NULL)
    {
-      File *PremierElement = file->tete;
-      // afficher touts d'abord
-      printf("%d->", file->tete->valeur);
-      // changer la tete difiler
-      file->tete = file->tete->suivant;
-      // enfiler le premier element
-      file->queue->suivant = PremierElement;
-      file->queue = PremierElement;
-
-   } while (&file->tete != address_du_tete);
+      printf("%d->", temp->valeur);
+      temp = temp->suivant;
+   }
+   printf("NULL\n");
 }
 
 void executerMenu()
@@ -152,9 +150,8 @@ void executerMenu()
       case 4:
          printf("Elements de la file: ");
          afficher_file_recursive(file);
-         printf("\n");
-         break;
-      case 5:
+         printf("Elements de la file: ");
+         afficher(file);
          printf("Quitter le programme.\n");
          break;
       default:
