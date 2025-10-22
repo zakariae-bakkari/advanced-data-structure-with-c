@@ -87,17 +87,14 @@ int main()
 {
    Pile *pile = create_tpile();
 
-   printf("\n=== DEMONSTRATION DE LA PILE ===\n");
+   printf("\n=== DEMONSTRATION DE LA PILE mise en oeuvre avec tableau ===\n");
 
-   // Initialisation de la pile
-   printf("\n1. Initialisation de la pile");
    if (init_tpile(pile) == 1)
-      printf("\n   Pile initialisee avec succes");
+      printf("\n1. Pile initialisee avec succes");
 
    // Verification pile vide
-   printf("\n\n2. Test pile vide");
    if (est_vide_tpile(*pile))
-      printf("\n   La pile est vide");
+      printf("\n2. La pile est vide");
    else
       printf("\n   La pile n'est pas vide");
 
@@ -143,7 +140,7 @@ int main()
       if (result == -2)
          break;
    }
-
+   
    // Affichage de la pile saturée
    printf("\n\n10. Affichage de la pile saturee:");
    afficher_tpile(*pile);
