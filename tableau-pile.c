@@ -12,7 +12,10 @@ Pile *create_tpile()
 {
    Pile *maPile = (Pile *)malloc(sizeof(Pile));
    if (!maPile)
-      return ((int)-1); // errer d'allocation
+   {
+      printf("Erreur de mémoire !\n");
+      exit(0);
+   }
    return maPile;
 }
 
@@ -71,7 +74,7 @@ void afficher_tpile(Pile mapile)
       while (mapile.sommet >= 0)
       {
          printf("pile[%d]=%d ", mapile.sommet, mapile.tableau[mapile.sommet]);
-         depiler_tpile(&mapile);         
+         depiler_tpile(&mapile);
       }
    }
    else
@@ -83,12 +86,71 @@ void afficher_tpile(Pile mapile)
 int main()
 {
    Pile *pile = create_tpile();
-   init_tpile(pile);
-   empiler_tpile(pile, 10);
-   empiler_tpile(pile, 15);
-   empiler_tpile(pile, 20);
+
+   printf("\n=== DEMONSTRATION DE LA PILE ===\n");
+
+   // Initialisation de la pile
+   printf("\n1. Initialisation de la pile");
+   if (init_tpile(pile) == 1)
+      printf("\n   Pile initialisee avec succes");
+
+   // Verification pile vide
+   printf("\n\n2. Test pile vide");
+   if (est_vide_tpile(*pile))
+      printf("\n   La pile est vide");
+   else
+      printf("\n   La pile n'est pas vide");
+
+   // Empilement des valeurs
+   printf("\n\n3. Empilement des valeurs");
+   printf("\n   Empiler 10: %s", empiler_tpile(pile, 10) == 1 ? "Succes" : "Echec");
+   printf("\n   Empiler 15: %s", empiler_tpile(pile, 15) == 1 ? "Succes" : "Echec");
+   printf("\n   Empiler 20: %s", empiler_tpile(pile, 20) == 1 ? "Succes" : "Echec");
+
+   // Affichage de la pile
+   printf("\n\n4. Affichage de la pile apres empilement:");
    afficher_tpile(*pile);
-   depiler_tpile(pile);
-   printf("\n---------------apres depiler-----------");
+
+   // Verification pile non vide
+   printf("\n\n5. Test pile vide");
+   if (est_vide_tpile(*pile))
+      printf("\n   La pile est vide");
+   else
+      printf("\n   La pile n'est pas vide");
+
+   // Verification pile saturee
+   printf("\n\n6. Test pile saturee");
+   if (est_sature_tpile(*pile))
+      printf("\n   La pile est saturee");
+   else
+      printf("\n   La pile n'est pas saturee");
+
+   // Depilement
+   printf("\n\n7. Depilement d'une valeur");
+   if (depiler_tpile(pile) == 1)
+      printf("\n   Depilement reussi");
+
+   // Affichage apres depilement
+   printf("\n\n8. Affichage de la pile apres depilement:");
    afficher_tpile(*pile);
+
+   // Empilement jusqu'à saturation
+   printf("\n\n9. Empilement jusqu'a saturation");
+   for (int i = 30; i < 100; i += 10)
+   {
+      int result = empiler_tpile(pile, i);
+      printf("\n   Empiler %d: %s", i, result == 1 ? "Succes" : (result == -2 ? "Echec (pile saturee)" : "Echec"));
+      if (result == -2)
+         break;
+   }
+
+   // Affichage de la pile saturée
+   printf("\n\n10. Affichage de la pile saturee:");
+   afficher_tpile(*pile);
+
+   // Libération de la mémoire
+   free(pile);
+   printf("\n\n=== FIN DE LA DEMONSTRATION ===\n");
+
+   return 0;
 }
