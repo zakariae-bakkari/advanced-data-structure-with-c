@@ -215,74 +215,43 @@ void errors_message_ttab(int nombre)
 // === Main ===
 int main()
 {
-   int choix, valeur, resultat, indice;
-   Matab *ptrTab = create_tab();
-   init_ttab(ptrTab);
-
-   // === en repete de demander un nombre tanque leur est diff de 8 (quitter) ==
-   do
+   Matab *latab = create_tab();
+   init_ttab(latab);
+   if (latab == NULL)
    {
-      choix = menu();
-      switch (choix)
-      {
-      case 1: // replissage
-         remplir_ttab(ptrTab);
-         break;
-      case 2: // affichage
-         afficher_ttab(*ptrTab);
-         break;
-      case 3: // rechercher
-         printf("Entrez la valeur a rechercher: ");
-         scanf("%d", &valeur);
-         resultat = recherche_ttab(*ptrTab, valeur);
-         if (resultat != -1)
-            printf("la valeur %d est trouve dans l'indice : %d", valeur, resultat);
-         else
-            printf("la valeur %d n'est pas trouve dans le tableau ", valeur);
-         break;
-      case 4: // insertion
-         printf("Entrez l'indice d'insertion (0 a %d): ", ptrTab->indice_dr + 1);
-         scanf("%d", &indice);
-         printf("Entrez la valeur a inserer: ");
-         scanf("%d", &valeur);
-         resultat = insertion(ptrTab, indice, valeur);
-         if (resultat == 0)
-            printf(" -> Element %d ajoute avec succes a l'indice %d\n", valeur, indice);
-         else
-         {
-            printf(" -> Erreur d'insertion, code d'erreur: %d\n", resultat);
-            errors_message_ttab(resultat);
-         }
-         break;
-      case 5: // supprission
-         printf("Entrez l'indice de l'element a supprimer (0 a %d): ", ptrTab->indice_dr);
-         scanf("%d", &indice);
-         resultat = supprimer_ttab(ptrTab, indice);
-         if (resultat == 0)
-            printf(" -> Element a l'indice %d supprime avec succes\n", indice);
-         else
-         {
-            printf(" -> Erreur de suppression, code d'erreur: %d\n", resultat);
-            errors_message_ttab(resultat);
-         }
-         break;
-      case 6: // modification
-         printf("Entrez l'indice de l'element a modifier (0 a %d): ", ptrTab->indice_dr);
-         scanf("%d", &indice);
-         printf("Entrez la nouvelle valeur: ");
-         scanf("%d", &valeur);
-         resultat = modifier_ttab(ptrTab, indice, valeur);
-         if (resultat == 0)
-            printf(" -> Element a l'indice %d modifie avec succes\n", indice);
-         else
-         {
-            printf(" -> Erreur de modification, code d'erreur: %d\n", resultat);
-            errors_message_ttab(resultat);
-         }
-         break;
-      case 7: // nombre des elements
-         printf("le nombre d'element dans le tableau est : %d", nombre_elements_ttab(*ptrTab));
-         break;
-      }
-   } while (choix != 8);
+      printf("Tableau initialisee avec succes.\n");
+   }
+
+   // tester la fonction taille
+   printf("1. Taille initiale du tableau: %d\n", nombre_elements_ttab(*latab));
+
+   // tester la fonction insertion
+   insert_fin_ttab(latab, 5);
+   insert_fin_ttab(latab, 10);
+   insert_fin_ttab(latab, 15);
+   printf("Taille du tableau apres insertion: %d\n", nombre_elements_ttab(*latab));
+   printf("\n2. Afficher le tableau apres l'insertion:\n");
+   afficher_ttab(*latab);
+
+   //tester la fonction rechercher
+   int valeur_recherchee = 10; // Exemple de valeur à rechercher
+   int indice_trouve = recherche_ttab(*latab, valeur_recherchee);
+   printf("\n3. Recherche de la valeur %d dans le tableau:\n", valeur_recherchee);
+   if (indice_trouve != -1)
+      printf("\nValeur %d trouvee a l'indice %d dans le tableau.\n", valeur_recherchee, indice_trouve);
+   else
+      printf("\nValeur %d non trouvee dans le tableau.\n", valeur_recherchee);
+   
+      // tester la fonciton supprimer
+   int indice_a_supprimer = 1; // Exemple d'indice à supprimer
+   supprimer_ttab(latab, indice_a_supprimer);
+   printf("\n4. Afficher le tableau apres la suppression a l'indice %d:\n", indice_a_supprimer);
+   afficher_ttab(*latab);
+
+   // tester la fonction modifier
+   int indice_a_modifier = 0; // Exemple d'indice à modifier
+   int nouvelle_valeur = 99;  // Nouvelle valeur à insérer
+   modifier_ttab(latab, indice_a_modifier, nouvelle_valeur);
+   printf("\n5. Afficher le tableau apres la modification a l'indice %d:\n", indice_a_modifier);
+   afficher_ttab(*latab);
 }

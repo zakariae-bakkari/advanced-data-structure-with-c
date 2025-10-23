@@ -113,6 +113,6 @@ int main()
       printf("\nla pile est sature\n");
    else
       printf("\nla pile n'est pas sature\n");   
-   //
+   
    return 0;
 }
