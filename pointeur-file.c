@@ -176,6 +176,7 @@ void afficher_file(File *file)
    }
    printf("\n");
 }
+// fonction pour executer le menu de la file pour etre interactive avec l'utilisateur
 void executerMenu()
 {
    File *file = init_file();
@@ -212,40 +213,63 @@ void executerMenu()
       }
    } while (choix != 5);
 }
+
 int main()
 {
+   // Initialiser la file vide
    File *file = init_file();
 
-   printf("Initialisation d'une file vide:\n");
-   printf("Est vide: %s\n", est_vide_file(file) ? "Oui" : "Non");
-   printf("Taille: %d\n\n", tailleFile(file));
-
-   printf("Enfilage de 3 elements (10, 20, 30):\n");
+   if (!file)
+   {
+      printf("Erreur d'allocation memoire pour la file.\n");
+      return -1;
+   }else
+   {
+      printf("File allouee avec succes.\n");
+   }
+   
+   // tester si la file est vide
+   if (est_vide_file(file))
+   {
+      printf("\nLa file est initialement vide.\n");
+   }
+   else
+   {
+      printf("\nLa file n'est pas vide initialement.\n");
+   }
+   printf("\n---------------------------\n");
+   // Tester la fonction enfiler()
+   printf("Test de la fonction enfiler() :\n");
    enfiler(file, 10);
    enfiler(file, 20);
    enfiler(file, 30);
-   afficher_file(file);
+   afficher_file(file); // Devrait afficher: 10 20 30
 
-   printf("Est vide: %s\n", est_vide_file(file) ? "Oui" : "Non");
-   printf("Taille: %d\n\n", tailleFile(file));
+   // tester si la file est vide apres l'enfiler
+   if (est_vide_file(file))
+   {
+      printf("La file est vide apres l'enfiler.\n");
+   }
+   else
+   {
+      printf("La file n'est pas vide apres l'enfiler.\n");
+   }
 
-   printf("Defilage d'un element:\n");
-   defiler(file);
-   afficher_file(file);
+   printf("\n---------------------------\n");
 
-   printf("Taille apres defilage: %d\n\n", tailleFile(file));
+   // Tester la fonction defiler()
+   printf("\nTest de la fonction defiler() :\n");
+   defiler(file); // Retirer 10
+   afficher_file(file); // Devrait afficher: 20 30
 
-   printf("Ajout d'un nouvel element (40):\n");
-   enfiler(file, 40);
-   afficher_file(file);
+   printf("\n---------------------------\n");
 
-   printf("Vidage complet de la file:\n");
-   defiler(file);
-   defiler(file);
-   defiler(file);
+   // tester la taille de la file
+   printf("\nTaille de la file: %d\n", tailleFile(file)); // Devrait afficher: 2
+   printf("Taille recursive de la file: %d\n", taille_recursive_file(file->tete)); // Devrait afficher: 2
 
-   printf("Est vide: %s\n", est_vide_file(file) ? "Oui" : "Non");
-
+   // Libérer la mémoire à la fin
    free(file);
+
    return 0;
 }

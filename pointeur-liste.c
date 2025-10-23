@@ -287,8 +287,7 @@ void afficher_menu()
    printf("Choix: ");
 }
 
-int main()
-{
+void exec(){
    liste *maliste = (liste *)init_null();
    int choix, valeur, position, nouvelle_valeur, valeur_a_changer;
 
@@ -349,5 +348,104 @@ int main()
       }
    } while (choix != 0);
 
+}
+int main()
+{
+   printf("=== Tests des fonctions de liste chainée ===\n");
+   
+   // Créer une liste vide
+   liste *maliste = init_null();
+   printf("Liste initiale: ");
+   afficher_liste(maliste);
+   
+   // Test insertion
+   printf("\n1. Test d'insertion:\n");
+   maliste = inserer_liste(maliste, 10, 1);
+   maliste = inserer_liste(maliste, 20, 2);
+   maliste = inserer_liste(maliste, 30, 1);  // Insertion au début
+   maliste = inserer_liste(maliste, 40, 3);
+   printf("Liste après insertions: ");
+   afficher_liste(maliste);
+   
+   // Test modification
+   printf("\n2. Test de modification:\n");
+   maliste = modifier_liste(maliste, 2, 25);
+   printf("Après modification position 2: ");
+   afficher_liste(maliste);
+   
+   // Test suppression par position
+   printf("\n3. Test de suppression par position:\n");
+   maliste = supprimer(maliste, 1);
+   printf("Après suppression position 1: ");
+   afficher_liste(maliste);
+   
+   // Test suppression par valeur
+   printf("\n4. Test de suppression par valeur:\n");
+   maliste = inserer_liste(maliste, 25, 3);  // Dupliquer une valeur
+   printf("Avec valeur dupliquée: ");
+   afficher_liste(maliste);
+   maliste = supprimer_prem_occu(maliste, 25);
+   printf("Après suppression première occurrence de 25: ");
+   afficher_liste(maliste);
+   
+   // Test suppression toutes occurrences
+   printf("\n5. Test de suppression de toutes les occurrences:\n");
+   maliste = inserer_liste(maliste, 40, 1);
+   maliste = inserer_liste(maliste, 40, 3);
+   printf("Liste avec plusieurs 40: ");
+   afficher_liste(maliste);
+   maliste = supprimer_tout_occu(maliste, 40);
+   printf("Après suppression de tous les 40: ");
+   afficher_liste(maliste);
+   
+   // Afficher la taille
+   printf("\n6. Taille de la liste: %d\n", taille_liste_recursive(maliste));
+   
+   // Libérer la mémoire
+   printf("\nNettoyage de la liste...\n");
+   while (!est_vide_liste(maliste)) {
+      maliste = supprimer(maliste, 1);
+   }
+   printf("Liste finale: ");
+   afficher_liste(maliste);
+   
+{
+   printf("=== Demo Simple ===\n");
+   
+   // Créer une liste vide
+   liste *demo = init_null();
+   printf("Liste initiale: ");
+   afficher_liste(demo);
+   
+   // Ajouter quelques éléments
+   printf("\nAjout de valeurs...\n");
+   demo = inserer_liste(demo, 10, 1);
+   demo = inserer_liste(demo, 20, 2);
+   demo = inserer_liste(demo, 30, 3);
+   demo = inserer_liste(demo, 10, 4);
+   demo = inserer_liste(demo, 40, 5);
+   
+   printf("Liste après insertion: ");
+   afficher_liste(demo);
+   
+   // Modifier une valeur
+   printf("\nModification de la valeur à la position 2...\n");
+   demo = modifier_liste(demo, 2, 25);
+   printf("Liste après modification: ");
+   afficher_liste(demo);
+   
+   // Supprimer un élément
+   printf("\nSuppression de la première occurrence de 10...\n");
+   demo = supprimer_prem_occu(demo, 10);
+   printf("Liste après suppression: ");
+   afficher_liste(demo);
+   
+   // Libérer la mémoire
+   while (!est_vide_liste(demo)) {
+      demo = supprimer(demo, 1);
+   }
+   
+   printf("\nExécution du menu interactif:\n");
+   
    return 0;
 }
