@@ -107,8 +107,8 @@ void afficher_file(file lafile)
       else
          printf("| ");
    }
-   printf("|\n");
-   printf("tete: |%d|,queue: |%d|", lafile.tete, lafile.queue);
+   printf("|   ");
+   printf("tete: |%d|,queue: |%d|\n", lafile.tete, lafile.queue);
 }
 // *********************************************************************************
 
@@ -157,9 +157,7 @@ void errors_message_file(int nombre)
       break;
    }
 }
-// === Main ===
-int main()
-{
+void exec(){
    int choix, valeur, resultat, indice;
    file *ptrFile = create_file();
    init_file(ptrFile);
@@ -214,4 +212,55 @@ int main()
          break;
       }
    } while (choix != 7);
+}
+// === Main ===
+int main()
+{
+   file *lafile = create_file();
+   init_file(lafile);
+   // tester la fonction taille
+   printf("1. Taille initiale de la file: %d\n", nombre_elements_file(*lafile));
+   // tester la fonction enfiler
+   printf("2. Enfiler des elements 5, 10, 15 dans la file(tableau).\n");
+   enfiler_file(lafile, 5);
+   enfiler_file(lafile, 10);
+   enfiler_file(lafile, 15);
+   printf("Taille de la file apres enfiler: %d\n", nombre_elements_file(*lafile));
+   printf("Contenu de la file: ");
+   afficher_file(*lafile);
+
+   // tester la fonction defiler
+   printf("\n3. Defiler un element de la file.\n");
+   defiler_file(lafile);
+   printf("Taille de la file apres defiler: %d\n", nombre_elements_file(*lafile));
+   printf("Contenu de la file: ");
+   afficher_file(*lafile);
+
+   // tester empliler jusqu'a saturer
+   printf("\n4. Enfiler des elements jusqu'a arriver a  la fin du file.\n");
+   for (int i = 0; i < 10; i++)
+   {
+      int res = enfiler_file(lafile, i * 10);
+      if (res < 0)
+      {
+         errors_message_file(res);
+         break;
+      }
+   }
+   printf("Taille de la file apres enfiler: %d\n", nombre_elements_file(*lafile));
+   printf("Contenu de la file: ");
+   afficher_file(*lafile);
+
+   //depiler encoure pour tster le tassment
+   printf("\n5. Defiler deux elements de la file pour tester le tassment.\n");
+   defiler_file(lafile);
+   defiler_file(lafile);
+   afficher_file(*lafile);
+
+   printf("\n6. Enfiler un element pour tester le tassment.\n");
+   enfiler_file(lafile, 999);
+   afficher_file(*lafile);
+   // libre la memoire
+   free(lafile);
+   return 0;
 }
