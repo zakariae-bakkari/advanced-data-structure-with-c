@@ -72,12 +72,14 @@ void afficher_pile(Pile *mapile)
 {
    Pile *tmp;
    tmp = init_pile();
+   printf("Pile-> ");
    while (mapile)
    {
-      printf("%d ", mapile->valeur);
+      printf("%d-> ", mapile->valeur);
       tmp = empiler_pile(tmp, mapile->valeur);
       mapile = depiler_pile(mapile);
    }
+   printf("NULL\n");
    while (tmp)
    {
       mapile = empiler_pile(mapile, tmp->valeur);
@@ -85,6 +87,7 @@ void afficher_pile(Pile *mapile)
    }
    free(tmp);
 }
+
 // Fonction pour afficher les options du menu
 void afficherMenu()
 {
@@ -157,6 +160,29 @@ void executerMenu()
 
 int main()
 {
-   executerMenu();
+   Pile *maPile = init_pile();
+   if (maPile == NULL)
+   {
+      printf("Pile initialisee avec succes.\n");
+   }
+
+   printf("1. Taille initiale de la pile: %d\n", taille_recursive_pile(maPile));
+
+   printf("2. empiler des elements 5, 10, 15 dans la pile.\n");
+   maPile = empiler_pile(maPile, 5);
+   maPile = empiler_pile(maPile, 10);
+   maPile = empiler_pile(maPile, 15);
+   printf("Taille de la pile apres empilage: %d\n", taille_recursive_pile(maPile));
+   printf("Contenu de la pile: ");
+   afficher_pile(maPile);
+
+   printf("\n3. depiler un element de la pile.\n");
+   maPile = depiler_pile(maPile);
+   printf("Taille de la pile apres depilage: %d\n", taille_recursive_pile(maPile));
+   printf("Contenu de la pile: ");
+   afficher_pile(maPile);
+
+   
+   
    return 0;
 }
