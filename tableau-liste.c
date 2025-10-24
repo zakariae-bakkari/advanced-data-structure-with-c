@@ -9,7 +9,7 @@ typedef struct Matab
    int indice_dr;
 } Matab;
 
-// *********************************************************************************
+//* fonction de creation du tableau dynamique "allocation dynamique"
 Matab *create_tab()
 {
    Matab *latab = (Matab *)malloc(sizeof(Matab));
@@ -18,9 +18,7 @@ Matab *create_tab()
    return ((Matab *)latab);
 }
 
-// *********************************************************************************
-
-// inisialiser le tableau
+//* inisialiser l'indice du dernier element du tableau a -1 pour indiquer qu'il est vide au debut
 int init_ttab(Matab *latab)
 {
    if (!latab)
@@ -29,22 +27,19 @@ int init_ttab(Matab *latab)
    return ((int)0);       //* Succès
 }
 
-// *********************************************************************************
-
-int est_vide_ttab(Matab latab) // works
+//* fonction pour tester si un tableau est vide ou pas
+int est_vide_ttab(Matab latab)
 {
    return ((int)(latab.indice_dr == -1)); // Retourne 1(true) si le tableau est vide, sinon 0 (false)
 }
 
-// *********************************************************************************
-
-int nombre_elements_ttab(Matab latab) // works
+//* fonction pour obtenir le nombre d'elements dans le tableau
+int nombre_elements_ttab(Matab latab)
 {
    return ((int)(latab.indice_dr + 1)); // Retourne le nombre d'éléments dans le tableau
 }
 
-// *********************************************************************************
-
+//* fonction d'insertion d'une valeur a un indice specifique dans le tableau
 int insertion(Matab *latab, int indice, int valeur)
 {
    int ind; // Indice de parcours
@@ -64,8 +59,8 @@ int insertion(Matab *latab, int indice, int valeur)
    latab->indice_dr++;
    return ((int)0); // Succès
 }
-// *********************************************************************************
 
+//* fonction de suppression d'une valeur  par l'indice specifique dans le tableau
 int supprimer_ttab(Matab *latab, int indice)
 {
    int ind; // Indice de parcours
@@ -83,7 +78,68 @@ int supprimer_ttab(Matab *latab, int indice)
    return ((int)0);    // Succès
 }
 
-// *********************************************************************************
+//* fonction de suppression de la premiere occurence d'une valeur dans le tableau
+int supprimer_premier_occ_ttab(Matab *latab, int valeur)
+{
+   int ind, indice_trouve = -1;
+   if (!latab)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*latab))
+      return ((int)-2); //! Erreur : le tableau est vide
+
+   // Rechercher la première occurrence de la valeur
+   for (ind = 0; ind <= latab->indice_dr; ind++)
+   {
+      if (latab->tab[ind] == valeur)
+      {
+         indice_trouve = ind;
+         break;
+      }
+   }
+
+   if (indice_trouve == -1)
+      return ((int)-3); //! Erreur : valeur non trouvée
+
+   // Supprimer l'élément à l'indice trouvé
+   for (ind = indice_trouve; ind < latab->indice_dr; ind++)
+      latab->tab[ind] = latab->tab[ind + 1];
+   latab->indice_dr--; // Decrementer l'indice du dernier élément
+   return ((int)0);    // Succès
+}
+
+//* fonction de suppression de toutes les occurences d'une valeur dans le tableau
+int supprimer_tout_occurences_ttab(Matab *latab, int valeur)
+{
+   int ind, count = 0;
+   if (!latab)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*latab))
+      return ((int)-2); //! Erreur : le tableau est vide
+
+   ind = 0;
+   while (ind <= latab->indice_dr)
+   {
+      if (latab->tab[ind] == valeur)
+      {
+         // Supprimer l'élément à l'indice trouvé
+         for (int j = ind; j < latab->indice_dr; j++)
+            latab->tab[j] = latab->tab[j + 1];
+         latab->indice_dr--; // Decrementer l'indice du dernier élément
+         count++;
+      }
+      else
+      {
+         ind++;
+      }
+   }
+
+   if (count == 0)
+      return ((int)-3); //! Erreur : valeur non trouvée
+
+   return ((int)count); // Retourne le nombre d'occurrences supprimées
+}
+
+//* fonction de recherche d'une valeur dans le tableau
 int recherche_ttab(Matab latab, int valeur)
 {
    int ind;
@@ -93,6 +149,7 @@ int recherche_ttab(Matab latab, int valeur)
    return ((int)-1);        //! Erreur : valeur non trouvée
 }
 
+//* fonction d'insertion d'une valeur a la fin du tableau
 int insert_fin_ttab(Matab *latab, int valeur)
 {
    // Vérifier si le tableau est existant
@@ -107,8 +164,7 @@ int insert_fin_ttab(Matab *latab, int valeur)
    return (0); // Succès
 }
 
-// *********************************************************************************
-
+//* fonction de remplissage du tableau interactivement avec l'utilisateur
 int remplir_ttab(Matab *latab)
 {
    int valeur, resultas;
@@ -144,7 +200,7 @@ int remplir_ttab(Matab *latab)
    return ((int)0); //* Succès
 }
 
-// *********************************************************************************
+//* fonction d'affichage du tableau
 void afficher_ttab(Matab latab)
 {
    int ind;
@@ -152,7 +208,8 @@ void afficher_ttab(Matab latab)
    for (ind = 0; ind <= latab.indice_dr; ind++)
       printf("t[%d] = %d \n", ind, latab.tab[ind]);
 }
-// *********************************************************************************
+
+//* fonction de modification d'une valeur a un indice specifique dans le tableau
 int modifier_ttab(Matab *latab, int indice, int valeur)
 {
    int ind;
@@ -164,6 +221,58 @@ int modifier_ttab(Matab *latab, int indice, int valeur)
       return ((int)-3); //! Erreur : indice invalide
    latab->tab[indice] = valeur;
    return ((int)0); // Succès
+}
+
+//* fonction de modification de la premier occurence d'une valeur dans le tableau
+int modifier_premier_occ_ttab(Matab *latab, int ancienne_valeur, int nouvelle_valeur)
+{
+   int ind, indice_trouve = -1;
+   if (!latab)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*latab))
+      return ((int)-2); //! Erreur : le tableau est vide
+
+   // Rechercher la première occurrence de l'ancienne valeur
+   for (ind = 0; ind <= latab->indice_dr; ind++)
+   {
+      if (latab->tab[ind] == ancienne_valeur)
+      {
+         indice_trouve = ind;
+         break;
+      }
+   }
+
+   if (indice_trouve == -1)
+      return ((int)-3); //! Erreur : valeur non trouvée
+
+   // Modifier l'élément à l'indice trouvé
+   latab->tab[indice_trouve] = nouvelle_valeur;
+   return ((int)0);    // Succès
+}
+
+//* focntion de modification de toutes les occurences d'une valeur dans le tableau
+int modifier_tout_occurences_ttab(Matab *latab, int ancienne_valeur, int nouvelle_valeur)
+{
+   int ind, count = 0;
+   if (!latab)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*latab))
+      return ((int)-2); //! Erreur : le tableau est vide
+
+   // Parcourir le tableau pour modifier toutes les occurrences
+   for (ind = 0; ind <= latab->indice_dr; ind++)
+   {
+      if (latab->tab[ind] == ancienne_valeur)
+      {
+         latab->tab[ind] = nouvelle_valeur;
+         count++;
+      }
+   }
+
+   if (count == 0)
+      return ((int)-3); //! Erreur : valeur non trouvée
+
+   return ((int)count); // Retourne le nombre d'occurrences modifiées
 }
 
 // ====== Menu pour les fonctions  ======
@@ -229,11 +338,17 @@ int main()
    insert_fin_ttab(latab, 5);
    insert_fin_ttab(latab, 10);
    insert_fin_ttab(latab, 15);
+   insert_fin_ttab(latab, 34);
+   insert_fin_ttab(latab, 15);
+   insert_fin_ttab(latab, 34);
+   insert_fin_ttab(latab, 15);
+   insert_fin_ttab(latab, 34);
+
    printf("Taille du tableau apres insertion: %d\n", nombre_elements_ttab(*latab));
    printf("\n2. Afficher le tableau apres l'insertion:\n");
    afficher_ttab(*latab);
 
-   //tester la fonction rechercher
+   // tester la fonction rechercher
    int valeur_recherchee = 10; // Exemple de valeur à rechercher
    int indice_trouve = recherche_ttab(*latab, valeur_recherchee);
    printf("\n3. Recherche de la valeur %d dans le tableau:\n", valeur_recherchee);
@@ -241,8 +356,8 @@ int main()
       printf("\nValeur %d trouvee a l'indice %d dans le tableau.\n", valeur_recherchee, indice_trouve);
    else
       printf("\nValeur %d non trouvee dans le tableau.\n", valeur_recherchee);
-   
-      // tester la fonciton supprimer
+
+   // tester la fonciton supprimer
    int indice_a_supprimer = 1; // Exemple d'indice à supprimer
    supprimer_ttab(latab, indice_a_supprimer);
    printf("\n4. Afficher le tableau apres la suppression a l'indice %d:\n", indice_a_supprimer);
@@ -254,4 +369,35 @@ int main()
    modifier_ttab(latab, indice_a_modifier, nouvelle_valeur);
    printf("\n5. Afficher le tableau apres la modification a l'indice %d:\n", indice_a_modifier);
    afficher_ttab(*latab);
+
+   // supprimer le premier occurence d'une valeur
+   int valeur_a_supprimer = 15; // Exemple de valeur à supprimer
+   supprimer_premier_occ_ttab(latab, valeur_a_supprimer);
+   printf("\n6. Afficher le tableau apres la suppression du premier occurence de la valeur %d:\n", valeur_a_supprimer);
+   afficher_ttab(*latab);
+
+   // supprimer tout les occurences d'une valeur
+   printf("\n7. Supprimer tout les occurences de la valeur %d:\n", valeur_a_supprimer);
+   int nb_supprimees = supprimer_tout_occurences_ttab(latab, valeur_a_supprimer);
+   if (nb_supprimees >= 0)
+      printf("Nombre d'occurrences supprimees: %d\n", nb_supprimees);
+   else
+      errors_message_ttab(nb_supprimees);
+   printf("Afficher le tableau apres la suppression de tout les occurences de la valeur %d:\n", valeur_a_supprimer);
+   afficher_ttab(*latab);
+
+   // modifier le premier occurence d'une valeur
+   int ancienne_valeur = 34; // Exemple de valeur à modifier
+   int nouvelle_valeur_modif = 77;  // Nouvelle valeur à insérer
+   modifier_premier_occ_ttab(latab, ancienne_valeur, nouvelle_valeur_modif);
+   printf("\n8. Afficher le tableau apres la modification du premier occurence de la valeur %d:\n", ancienne_valeur);
+   afficher_ttab(*latab);
+
+   // modifier tout les occurences d'une valeur
+   modifier_tout_occurences_ttab(latab, ancienne_valeur, nouvelle_valeur_modif);
+   printf("\n9. Afficher le tableau apres la modification de tout les occurences de la valeur %d:\n", nouvelle_valeur_modif);
+   afficher_ttab(*latab);
+   // Libérer la mémoire allouée pour le tableau
+   free(latab);
+   return 0;
 }
