@@ -25,6 +25,7 @@ cellule *creeCellule(int valeur)
    cel->suivant = NULL;
    return ((cellule *)cel);
 }
+
 // alocation d'une file et l'initialisation des pointeur
 File *init_file()
 {
@@ -39,6 +40,7 @@ File *init_file()
    return ((File *)file);
 }
 
+// tester si la file est vide
 int est_vide_file(File *file)
 {
 
@@ -60,21 +62,32 @@ int tailleFile(File *file) // pas correct car il na pas utilise le principe fifo
    return taille;
 }
 
+// fonction recursive pour calculer la taille de la file
 int taille_recursive_file(cellule *cel)
 {
    if (cel == NULL)
       return ((int)0);
    return 1 + taille_recursive_file(cel->suivant);
 }
+
 // enfiler la file : ajouter au dernier
 int enfiler(File *file, int valeur)
 {
+   // verifer l'allocation de la file
    if (!file)
    {
       printf("la file n'exist pas (pas allouer) \n");
-      return -1;
+      return ((int) -1);
    }
-   cellule *nouvelleCellule = creeCellule(valeur); // creer une nouvelle cellule et le teste d'allocation fait dans la fonction creeCellule
+   cellule *nouvelleCellule = creeCellule(valeur);
+
+   // verifer l'allocation de la nouvelle cellule
+   if (!nouvelleCellule)
+   {
+      printf("Erreur d'allocation memoire pour la nouvelle cellule \n");
+      return ((int) -2); // Error d'allocation
+   }
+
    // si la file est vide
    if (est_vide_file(file))
    {
@@ -85,7 +98,7 @@ int enfiler(File *file, int valeur)
       file->queue->suivant = nouvelleCellule; // l'element suivant de la queue pointe sur la nouvelle cellule
       file->queue = nouvelleCellule;          // la queue pointe sur la nouvelle cellule
    }
-   return ((int)0); // succes
+   return ((int) 1); // succes
 }
 
 // fonction pour defiler la file : supprimer du debut
@@ -95,24 +108,27 @@ int defiler(File *file)
    if (!file)
    {
       printf("la file n'exist pas (pas allouer) \n");
-      return ((int)-1); //! Error d'allocation
+      return ((int)-1); // Error d'allocation
    }
+   
    // verifer si la file est vide
    if (est_vide_file(file))
    {
       printf("la file est vide \n");
-      return ((int)-2); //! Error file vide
+      return ((int)-2); // Error file vide
    }
+   
    // defiler l'element du tete en resurvant l'adresse de la cellule a supprimer
-   cellule *copy = file->tete; // sauvegarder l'adresse de la tete
+   cellule *cellule_a_supprimer = file->tete; // sauvegarder l'adresse de la tete
    file->tete = file->tete->suivant;
+
    // reset the queue if the tete is null
    if (file->tete == NULL)
    {
       file->queue = NULL;
    }
 
-   free(copy);      // liberer la memoire de la cellule supprimer
+   free(cellule_a_supprimer);      // liberer la memoire de la cellule supprimer
    return ((int)1); // succes
 }
 
@@ -178,17 +194,18 @@ int main()
    {
       printf("Erreur d'allocation memoire pour la file.\n");
       return -1;
-   }else
+   }
+   else
    {
       printf("File allouee avec succes.\n");
    }
-   
+
    // tester si la file est vide
    if (est_vide_file(file))
       printf("\nLa file est initialement vide.\n\n");
    else
       printf("\nLa file n'est pas vide initialement.\n\n");
-  
+
    // Tester la fonction enfiler()
    printf("1. Test de la fonction enfiler() :\n");
    enfiler(file, 10);
@@ -209,20 +226,17 @@ int main()
 
    // Tester la fonction defiler()
    printf("3. Test de la fonction defiler() :\n");
-   defiler(file); // Retirer 10
+   defiler(file);       // Retirer 10
    afficher_file(file); // Devrait afficher: 20 30
 
-  
-
    // Tester la taille de la file avec la fonction iterative
-   printf("4. Test de la fonction taille (iterative) :\n");
-   printf("Taille de la file: %d\n\n", tailleFile(file)); 
+   printf("4. Test de la fonction taille :\n");
+   printf("Taille de la file: %d\n\n", tailleFile(file));
    // Tester la taille de la file avec la fonction recursive
    printf("5. Test de la fonction taille (recursive) :\n");
-   printf("Taille recursive de la file: %d\n", taille_recursive_file(file->tete)); 
+   printf("Taille recursive de la file: %d\n", taille_recursive_file(file->tete));
 
    printf("\n\n========== Fin des tests de la file (pointeur) ==========\n\n");
-
 
    // Libérer la mémoire à la fin
    free(file);
