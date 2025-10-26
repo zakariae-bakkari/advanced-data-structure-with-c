@@ -150,12 +150,13 @@ void afficher_file(File *file)
 {
    cellule *courant = file->tete;
    printf("Contenu de la file : ");
+   printf("Tete-> ");
    while (courant != NULL)
    {
-      printf("%d ", courant->valeur);
+      printf("%d-> ", courant->valeur);
       courant = courant->suivant;
    }
-   printf("\n");
+   printf("NULL\n");
    printf("Tete de la file : ");
    if (file->tete != NULL)
    {
@@ -219,6 +220,8 @@ int main()
    // Initialiser la file vide
    File *file = init_file();
 
+   printf("\n\n========== Test des fonctions de la file (pointeur) ==========\n\n");
+
    if (!file)
    {
       printf("Erreur d'allocation memoire pour la file.\n");
@@ -230,16 +233,12 @@ int main()
    
    // tester si la file est vide
    if (est_vide_file(file))
-   {
       printf("\nLa file est initialement vide.\n");
-   }
    else
-   {
       printf("\nLa file n'est pas vide initialement.\n");
-   }
-   printf("\n---------------------------\n");
+  
    // Tester la fonction enfiler()
-   printf("Test de la fonction enfiler() :\n");
+   printf("1. Test de la fonction enfiler() :\n");
    enfiler(file, 10);
    enfiler(file, 20);
    enfiler(file, 30);
@@ -255,14 +254,14 @@ int main()
       printf("La file n'est pas vide apres l'enfiler.\n");
    }
 
-   printf("\n---------------------------\n");
+  
 
    // Tester la fonction defiler()
    printf("\nTest de la fonction defiler() :\n");
    defiler(file); // Retirer 10
    afficher_file(file); // Devrait afficher: 20 30
 
-   printf("\n---------------------------\n");
+  
 
    // tester la taille de la file
    printf("\nTaille de la file: %d\n", tailleFile(file)); // Devrait afficher: 2
