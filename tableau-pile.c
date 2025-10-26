@@ -57,18 +57,17 @@ int empiler_tpile(Pile *mapile, int valeur)
 int depiler_tpile(Pile *mapile)
 {
    // tester l'existance
-   if (!mapile)
-      return ((int)-1);
+   if (!mapile) return ((int)-1);
    // tester si il est vide
-   if (est_vide_tpile(*mapile))
-      return ((int)-3);
+   if (est_vide_tpile(*mapile)) return ((int)-3);
    (mapile->sommet)--;
    return ((int)1);
 }
 
-void afficher_tpile(Pile *mapile)
+// afficher la pile sans la modifier en utilisant une pile temporaire pour conserver le principe LIFO
+void afficher_tpile(Pile mapile)
 {
-   if (!mapile || est_vide_tpile(*mapile))
+   if (est_vide_tpile(mapile))
    {
       printf("Pile vide\n");
       return;
@@ -80,21 +79,21 @@ void afficher_tpile(Pile *mapile)
 
    printf("Affichage LIFO: \n");
    //aficher touts d'abord la valeur du sommet
-   printf("l'indice du sommet = %d\n", mapile->sommet);
+   printf("l'indice du sommet = %d\n", mapile.sommet);
 
    // Phase 1: Dépiler et sauvegarder
-   while (!est_vide_tpile(*mapile))
+   while (!est_vide_tpile(mapile))
    {
-      temp[nb_elements] = mapile->tableau[mapile->sommet];
-      printf("pile[%d]=%d ", mapile->sommet, temp[nb_elements]);
-      depiler_tpile(mapile);
+      temp[nb_elements] = mapile.tableau[mapile.sommet];
+      printf("pile[%d]=%d ", mapile.sommet, temp[nb_elements]);
+      depiler_tpile(&mapile);
       nb_elements++;
    }
 
    // Phase 2: Restaurer la pile
    for (int i = nb_elements - 1; i >= 0; i--)
    {
-      empiler_tpile(mapile, temp[i]);
+      empiler_tpile(&mapile, temp[i]);
    }
 
    printf("\n");
@@ -133,7 +132,7 @@ int main()
 
    // afficher la pile
    printf("\n3. afficher la pile:\n");
-   afficher_tpile(pile);
+   afficher_tpile(*pile);
    printf("\n");
 
    // depiler un element
@@ -145,7 +144,7 @@ int main()
 
    // afficher la pile apres depiler
    printf("\n5. afficher la pile apres depiler un element:\n\n");
-   afficher_tpile(pile);
+   afficher_tpile(*pile);
 
    // test de saturation
    if (est_sature_tpile(*pile))
@@ -181,7 +180,7 @@ int main()
 
    // afficher la pile apres saturation
    printf("\nafficher la pile apres saturation:\n");
-   afficher_tpile(pile);
+   afficher_tpile(*pile);
    printf("\n");
 
    printf("\n\n========== Fin des tests de la pile (tableau) ==========\n\n");
