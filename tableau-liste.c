@@ -324,12 +324,13 @@ void errors_message_ttab(int nombre)
       break;
    }
 }
+
 // === Main ===
 int main()
 {
    TList *liste = create_tab();
    init_ttab(liste);
-   printf("\n\n========== Test des fonctions du tableau ==========\n\n");
+   printf("\n\n========== Test des fonctions du liste (tableau) ==========\n\n");
    // tester l'allocation memoire a partir de la fonction create_tab
    if (!liste)
    {
