@@ -405,5 +405,7 @@ int main()
    afficher_ttab(*liste);
    // Libérer la mémoire allouée pour le tableau
    free(liste);
+
+   printf("\n\n========== Fin des tests ==========\n\n");
    return 0;
 }
