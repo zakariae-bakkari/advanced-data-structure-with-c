@@ -177,43 +177,6 @@ void afficher_file(File *file)
    }
    printf("\n");
 }
-// fonction pour executer le menu de la file pour etre interactive avec l'utilisateur
-void executerMenu()
-{
-   File *file = init_file();
-   int choix, valeur;
-   do
-   {
-      printf("\nMenu:\n");
-      printf("1. Enfiler un element\n");
-      printf("2. Defiler un element\n");
-      printf("3. Afficher la taille de la file\n");
-      printf("4. Afficher les elements de la file\n");
-      printf("5. Quitter\n");
-      printf("Entrez votre choix: ");
-      scanf("%d", &choix);
-      switch (choix)
-      {
-      case 1:
-         printf("Entrez la valeur a enfiler: ");
-         scanf("%d", &valeur);
-         enfiler(file, valeur);
-         break;
-      case 2:
-         defiler(file);
-         break;
-      case 3:
-         printf("Taille de la file: %d\n", tailleFile(file));
-         break;
-      case 4:
-         printf("Elements de la file: ");
-         afficher_file(file);
-         break;
-      default:
-         printf("Choix invalide. Veuillez reessayer.\n");
-      }
-   } while (choix != 5);
-}
 
 int main()
 {
