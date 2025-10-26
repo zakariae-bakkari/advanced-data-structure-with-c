@@ -45,11 +45,12 @@ Pile *empiler_pile(Pile *pile, int valeur)
 {
    cellule *nouveauElment = cree_cellule(valeur);
    if (!nouveauElment)
-      return ((Pile *)NULL); // erreur d'allocation de la cellule
+      return pile; // returner la pile originale si erreur d'allocation
+   
    nouveauElment->suivant = pile;
    pile = nouveauElment;
 
-   return ((Pile *)pile);
+   return ((Pile *)pile);// returner le nouveau sommet
 };
 Pile *depiler_pile(Pile *pile)
 {
@@ -161,14 +162,15 @@ void executerMenu()
 int main()
 {
    Pile *maPile = init_pile();
+   printf("\n\n========== Test des fonctions de la pile (pointeur) ==========\n\n");
    if (maPile == NULL)
    {
-      printf("Pile initialisee avec succes.\n");
+      printf("Pile initialisee avec succes.\n\n");
    }
 
    printf("1. Taille initiale de la pile: %d\n", taille_recursive_pile(maPile));
 
-   printf("2. empiler des elements 5, 10, 15 dans la pile.\n");
+   printf("\n2. empiler des elements 5, 10, 15 dans la pile.\n");
    maPile = empiler_pile(maPile, 5);
    maPile = empiler_pile(maPile, 10);
    maPile = empiler_pile(maPile, 15);
@@ -182,7 +184,6 @@ int main()
    printf("Contenu de la pile: ");
    afficher_pile(maPile);
 
-   
-   
+   printf("\n\n========== fin du testes ==========\n");
    return 0;
 }
