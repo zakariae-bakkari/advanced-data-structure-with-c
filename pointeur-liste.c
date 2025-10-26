@@ -253,7 +253,7 @@ int taille_liste_recursive(liste *maliste)
 void afficher_liste(liste *maliste)
 {
    liste *current = maliste;
-   printf("Liste-> ");   
+   printf("Liste-> ");
    while (current != NULL)
    {
       printf("%d -> ", current->valeur);
@@ -274,7 +274,7 @@ void afficher_liste_recursive(liste *maliste)
    afficher_liste_recursive(maliste->suivant);
 }
 
-// Afficher le menu pour l'utilisateur 
+// Afficher le menu pour l'utilisateur
 void afficher_menu()
 {
    printf("\n=== Menu ===\n");
@@ -291,7 +291,8 @@ void afficher_menu()
 }
 
 // Executer le menu interactif
-void exec(){
+void exec()
+{
    liste *maliste = (liste *)init_null();
    int choix, valeur, position, nouvelle_valeur, valeur_a_changer;
 
@@ -351,66 +352,70 @@ void exec(){
          printf("Choix invalide!\n");
       }
    } while (choix != 0);
-
 }
 
 int main()
-{   
+{
    // Creer une liste vide
    liste *maliste = init_null();
+   printf("\n\n========== Test des fonctions de la liste chaine (pointeur) ==========\n\n");
    if (!maliste)
    {
       printf("La liste est initialisee a NULL.\n");
    }
 
    // Test insertion
-   printf("\n1. Test d'insertion:\n");
-   printf("insertion de valeurs avec la position ...\n");
-   maliste = inserer_liste(maliste, 10, 1);// Insertion au debut
+   printf("\n1. Test d'insertion par position:\n");
+   maliste = inserer_liste(maliste, 10, 1);
    maliste = inserer_liste(maliste, 20, 1);
    maliste = inserer_liste(maliste, 40, 1);
    maliste = inserer_liste(maliste, 25, 1);
    maliste = inserer_liste(maliste, 40, 1);
-   maliste = inserer_liste(maliste, 30, 1);  // Insertion au debut
+   maliste = inserer_liste(maliste, 30, 1);
    maliste = inserer_liste(maliste, 40, 1);
-   
+
    printf("afficher la liste apres insertions: ");
    afficher_liste(maliste);
-   
+
+   // la taille
+   printf("\n2. Taille de la liste apres insertions: %d\n", taille_liste_recursive(maliste));
    // Test modification
-   printf("\n2. Test de modification:\n");
+   printf("\n3. Test de modification par position:\n");
+   printf("modifier la position 2 avec la valeur 25\n");
    maliste = modifier_liste(maliste, 2, 25);
-   printf("Apres modification position 2: ");
+   printf("Apres modification: ");
    afficher_liste(maliste);
-   
+
    // Test suppression par position
-   printf("\n3. Test de suppression par position:\n");
+   printf("\n4. Test de suppression par position:\n");
+   printf("supprimer la position 1\n");
    maliste = supprimer(maliste, 1);
-   printf("Apres suppression position 1: ");
+   printf("Apres suppression: ");
    afficher_liste(maliste);
-   
+
    // Test suppression par valeur
-   printf("\n4. Test de suppression par valeur (25):\n");
+   printf("\n5. Test de suppression par valeur (25):\n");
    maliste = supprimer_prem_occu(maliste, 25);
    printf("Apres suppression premiere occurrence de 25: ");
    afficher_liste(maliste);
-   
+
    // Test suppression toutes occurrences
-   printf("\n5. Test de suppression de toutes les occurrences:\n");
+   printf("\n6. Test de suppression de toutes les occurrences(40):\n");
    maliste = supprimer_tout_occu(maliste, 40);
    printf("Apres suppression de tous les 40: ");
    afficher_liste(maliste);
-   
+
    // Afficher la taille
    printf("\n6. Taille de la liste: %d\n", taille_liste_recursive(maliste));
-   
+
    // Liberer la memoire
    printf("\nNettoyage de la liste...\n");
-   while (!est_vide_liste(maliste)) {
+   while (!est_vide_liste(maliste))
+   {
       maliste = supprimer(maliste, 1);
    }
    printf("Liste finale: ");
    afficher_liste(maliste);
- 
+
    return 0;
 }
