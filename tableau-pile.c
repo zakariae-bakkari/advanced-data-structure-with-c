@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #define maxelem 10
 
+// Definition de la structure Pile
 typedef struct Pile
 {
    int tableau[maxelem];
    int sommet;
 } Pile;
 
+// creer la pile
 Pile *create_tpile()
 {
    Pile *maPile = (Pile *)malloc(sizeof(Pile));
@@ -19,6 +21,7 @@ Pile *create_tpile()
    return maPile;
 }
 
+// initialiser la pile
 int init_tpile(Pile *maPile)
 {
    // tester l'existance
@@ -28,6 +31,7 @@ int init_tpile(Pile *maPile)
    return 1;
 }
 
+// test de vide
 int est_vide_tpile(Pile maPile)
 {
    return ((int)maPile.sommet == -1);
