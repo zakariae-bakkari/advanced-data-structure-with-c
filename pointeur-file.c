@@ -132,6 +132,19 @@ int defiler(File *file)
    return ((int)1); // succes
 }
 
+//fonction recherche recursive dans la file
+int recherche_recursive_file_2(cellule *cel, int valeur, int position)
+{
+   if (cel == NULL)
+      return ((int)0); // valeur non trouvee
+   if (cel->valeur == valeur)
+      return (position); // valeur trouvee
+   return recherche_recursive_file_2(cel->suivant, valeur, position + 1);
+}
+int recherche_recursive_file(File *file, int valeur)
+{
+   return recherche_recursive_file_2(file->tete, valeur, 1);
+}
 // affichier en utilsant une copie de la file
 void afficher(File *file)
 {
@@ -211,6 +224,10 @@ int main()
    enfiler(file, 10);
    enfiler(file, 20);
    enfiler(file, 30);
+   enfiler(file, 1);
+   enfiler(file, 50);
+   enfiler(file, 67);
+
    afficher_file(file); // Devrait afficher: 10 20 30
 
    // tester si la file est vide apres l'enfiler
@@ -235,6 +252,17 @@ int main()
    // Tester la taille de la file avec la fonction recursive
    printf("5. Test de la fonction taille (recursive) :\n");
    printf("Taille recursive de la file: %d\n", taille_recursive_file(file->tete));
+
+   // Tester la fonction recherche_recursive_file()
+   printf("\n6. Test de la fonction recherche_recursive_file() :\n");
+   int valeur_recherchee = 20;
+   int position_trouvee = recherche_recursive_file(file, valeur_recherchee);
+   if (position_trouvee != 0)
+      printf("Valeur %d trouvee a la position %d dans la file.\n", valeur_recherchee, position_trouvee);
+   else
+      printf("Valeur %d non trouvee dans la file.\n", valeur_recherchee);
+   afficher_file(file);
+   
 
    printf("\n\n========== Fin des tests de la file (pointeur) ==========\n\n");
 
