@@ -251,7 +251,7 @@ int main()
       int res = enfiler_file(lafile, i * 10);
       if (res < 0)
       {
-         errors_message_file(res);
+         printf("*la file devenir saturee.*\n");
          break;
       }
    }

@@ -89,7 +89,7 @@ void afficher_tpile(Pile mapile)
    while (!est_vide_tpile(mapile))
    {
       temp[nb_elements] = mapile.tableau[mapile.sommet];
-      printf("pile[%d]=%d ", mapile.sommet, temp[nb_elements]);
+      printf("pile[%d]=%d\n", mapile.sommet, temp[nb_elements]);
       depiler_tpile(&mapile);
       nb_elements++;
    }
@@ -126,7 +126,7 @@ int main()
       printf("la pile n'est pas vide\n");
 
    // empiler des elements
-   printf("\n2. empiler des elements dans la pile:\n");
+   printf("\n2. empiler des elements dans la pile:(5,10,15)\n");
    empiler_tpile(pile, 5);
    empiler_tpile(pile, 10);
    empiler_tpile(pile, 15);
