@@ -46,11 +46,11 @@ Pile *empiler_pile(Pile *pile, int valeur)
    cellule *nouveauElment = cree_cellule(valeur);
    if (!nouveauElment)
       return pile; // returner la pile originale si erreur d'allocation
-   
+
    nouveauElment->suivant = pile;
    pile = nouveauElment;
 
-   return ((Pile *)pile);// returner le nouveau sommet
+   return ((Pile *)pile); // returner le nouveau sommet
 };
 Pile *depiler_pile(Pile *pile)
 {
@@ -61,6 +61,22 @@ Pile *depiler_pile(Pile *pile)
    free(temp);
    return ((Pile *)pile);
 }
+
+
+int recherche_recursive_pile_2(Pile *pile, int valeur, int position)// dernier element
+{
+   if (est_vide_pile(pile))//
+      return ((int)0); // valeur non trouvee
+   if (pile->valeur == valeur)
+      return (position); // valeur trouvee
+   return recherche_recursive_pile_2(pile->suivant, valeur, position + 1);
+}
+
+int recherche_recursive_pile(Pile *pile, int valeur)
+{
+   return recherche_recursive_pile_2(pile, valeur, 1);
+}
+
 void affichier_recursive(Pile *pile)
 {
    if (!est_vide_pile(pile))
@@ -138,7 +154,7 @@ void executerMenu()
 
       case 3:
          if (!est_vide_pile(mapile))
-             afficher_pile(mapile);
+            afficher_pile(mapile);
          else
             printf("La pile est vide!\n");
          break;
@@ -174,6 +190,8 @@ int main()
    maPile = empiler_pile(maPile, 5);
    maPile = empiler_pile(maPile, 10);
    maPile = empiler_pile(maPile, 15);
+   maPile = empiler_pile(maPile, 23);
+   maPile = empiler_pile(maPile, 6);
    printf("Taille de la pile apres empilage: %d\n", taille_recursive_pile(maPile));
    printf("Contenu de la pile: ");
    afficher_pile(maPile);
@@ -183,6 +201,15 @@ int main()
    printf("Taille de la pile apres depilage: %d\n", taille_recursive_pile(maPile));
    printf("Contenu de la pile: ");
    afficher_pile(maPile);
+   printf("\n4. recherche d'une valeur dans la pile.\n");
+   int valeur_recherchee = 23;
+   int position_trouvee = recherche_recursive_pile(maPile, valeur_recherchee);
+   if (position_trouvee != 0)
+      printf("Valeur %d trouvee a la position %d dans la pile.\n", valeur_recherchee, position_trouvee);
+   else
+      printf("Valeur %d non trouvee dans la pile.\n", valeur_recherchee);
+      afficher_pile(maPile);
+
 
    printf("\n\n========== fin du testes ==========\n");
    return 0;
