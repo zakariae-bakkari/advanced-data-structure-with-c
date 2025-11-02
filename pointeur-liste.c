@@ -446,6 +446,15 @@ int main()
    }
    printf("Liste finale: ");
    afficher_liste(maliste);
+   // tester la fonction inserer_bonne_place_pliste
+   printf("\n7. Test d'insertion en ordre croissant:\n");
+   maliste = inserer_bonne_place_pliste(maliste, 50);
+   maliste = inserer_bonne_place_pliste(maliste, 20);
+   maliste = inserer_bonne_place_pliste(maliste, 30);
+   maliste = inserer_bonne_place_pliste(maliste, 10);
+   maliste = inserer_bonne_place_pliste(maliste, 40);
+   printf("Apres insertions en ordre croissant: ");
+   afficher_liste(maliste);
 
    return 0;
 }
