@@ -133,29 +133,62 @@ int defiler(File *file)
 }
 
 // insertion a bonne place dans la file
-int inserer_bonne_place_file(File *file, int valeur){
+void inserer_bonne_place_file(File *file, int valeur){
+   File *temp = init_file();
    if (!file) {
       printf("la file n'exist pas (pas allouer) \n");
-      exit(-1);
+      return;
    }
-   File *temp = init_file();
-   // defiler jusqu'a trouver la bonne place
-   while (!est_vide_file(file)) {
-      if (file->tete->valeur >= valeur)
-         break;
+   
+   // Cas 1: File vide
+   if (est_vide_file(file)) {
+      enfiler(file, valeur);
+      free(temp);
+      return;
+   }
+   
+   // Cas 2: Insertion au debut
+   if (valeur < file->tete->valeur) {
+      cellule *NE = creeCellule(valeur);
+      if (NE) {
+         NE->suivant = file->tete;
+         file->tete = NE;
+      }
+      free(temp);
+      return;
+   }
+   
+   // Cas 3: Insertion a la fin
+   if (valeur >= file->queue->valeur) {
+      enfiler(file, valeur);
+      free(temp);
+      return;
+   }
+   
+   // Cas 4: Insertion au milieu
+   // Défiler jusqu'à trouver la bonne place
+   while (!est_vide_file(file) && file->tete->valeur < valeur) {
       enfiler(temp, file->tete->valeur);
       defiler(file);
    }
-   // enfiler la nouvelle valeur
+   
+   // Insérer la nouvelle valeur
    enfiler(temp, valeur);
-   // remettre les elements defiler
+   
+   // Transférer le reste
+   while (!est_vide_file(file)) {
+      enfiler(temp, file->tete->valeur);
+      defiler(file);
+   }
+   
+   //Remettre tout dans la file originale
    while (!est_vide_file(temp)) {
       enfiler(file, temp->tete->valeur);
       defiler(temp);
    }
-   free(temp);;
-   return 1;
    
+   // Libérer la file temporaire
+   free(temp);
 }
 //fonction recherche recursive dans la file
 int recherche_recursive_file_2(cellule *cel, int valeur, int position)
@@ -293,6 +326,16 @@ int main()
 
    // Libérer la mémoire à la fin
    free(file);
+
+   // tester la fonction inserer_bonne_place_file
+   printf("7. Test de la fonction inserer_bonne_place_file() :\n");
+   File *file2 = init_file();
+   inserer_bonne_place_file(file2, 25);
+   inserer_bonne_place_file(file2, 5);
+   inserer_bonne_place_file(file2, 60);
+   inserer_bonne_place_file(file2, 15);
+   afficher_file(file2);
+
 
    return 0;
 }
