@@ -62,11 +62,36 @@ Pile *depiler_pile(Pile *pile)
    return ((Pile *)pile);
 }
 
-
-int recherche_recursive_pile_2(Pile *pile, int valeur, int position)// dernier element
+Pile *inserer_bonne_place_pile(Pile *pile, int valeur)
 {
-   if (est_vide_pile(pile))//
-      return ((int)0); // valeur non trouvee
+   Pile *tmp = init_pile();
+
+   // depiler jusqu'a trouver la bonne place
+   while (pile)
+   {
+      if (pile->valeur >= valeur)
+         break;
+      tmp = empiler_pile(tmp, pile->valeur);
+      pile = depiler_pile(pile);
+   }
+   
+   // empiler la nouvelle valeur
+   tmp = empiler(tmp, valeur);
+
+   // remettre les elements depiler
+   while (tmp)
+   {
+      pile = empiler_pile(pile, tmp->valeur);
+      tmp = depiler_pile(tmp);
+   }
+
+   return ((Pile *)pile);
+}
+
+int recherche_recursive_pile_2(Pile *pile, int valeur, int position) // dernier element
+{
+   if (est_vide_pile(pile)) //
+      return ((int)0);      // valeur non trouvee
    if (pile->valeur == valeur)
       return (position); // valeur trouvee
    return recherche_recursive_pile_2(pile->suivant, valeur, position + 1);
@@ -208,8 +233,7 @@ int main()
       printf("Valeur %d trouvee a la position %d dans la pile.\n", valeur_recherchee, position_trouvee);
    else
       printf("Valeur %d non trouvee dans la pile.\n", valeur_recherchee);
-      afficher_pile(maPile);
-
+   afficher_pile(maPile);
 
    printf("\n\n========== fin du testes ==========\n");
    return 0;
