@@ -132,6 +132,31 @@ int defiler(File *file)
    return ((int)1); // succes
 }
 
+// insertion a bonne place dans la file
+int inserer_bonne_place_file(File *file, int valeur){
+   if (!file) {
+      printf("la file n'exist pas (pas allouer) \n");
+      exit(-1);
+   }
+   File *temp = init_file();
+   // defiler jusqu'a trouver la bonne place
+   while (!est_vide_file(file)) {
+      if (file->tete->valeur >= valeur)
+         break;
+      enfiler(temp, file->tete->valeur);
+      defiler(file);
+   }
+   // enfiler la nouvelle valeur
+   enfiler(temp, valeur);
+   // remettre les elements defiler
+   while (!est_vide_file(temp)) {
+      enfiler(file, temp->tete->valeur);
+      defiler(temp);
+   }
+   free(temp);;
+   return 1;
+   
+}
 //fonction recherche recursive dans la file
 int recherche_recursive_file_2(cellule *cel, int valeur, int position)
 {
