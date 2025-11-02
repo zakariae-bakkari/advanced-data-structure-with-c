@@ -74,9 +74,9 @@ Pile *inserer_bonne_place_pile(Pile *pile, int valeur)
       tmp = empiler_pile(tmp, pile->valeur);
       pile = depiler_pile(pile);
    }
-   
+
    // empiler la nouvelle valeur
-   tmp = empiler(tmp, valeur);
+   tmp = empiler_pile(tmp, valeur);
 
    // remettre les elements depiler
    while (tmp)
@@ -234,6 +234,18 @@ int main()
    else
       printf("Valeur %d non trouvee dans la pile.\n", valeur_recherchee);
    afficher_pile(maPile);
+
+   free(maPile);
+   // tester la fonction inserer_bonne_place_pile
+   printf("\n5. inserer des elements dans la pile en ordre croissant.\n");
+   Pile *pile_ordonnee = init_pile();
+   pile_ordonnee = inserer_bonne_place_pile(pile_ordonnee, 30);
+   pile_ordonnee = inserer_bonne_place_pile(pile_ordonnee, 10);
+   pile_ordonnee = inserer_bonne_place_pile(pile_ordonnee, 20);
+   pile_ordonnee = inserer_bonne_place_pile(pile_ordonnee, 40);
+   pile_ordonnee = inserer_bonne_place_pile(pile_ordonnee, 25);
+   printf("Contenu de la pile ordonnee: ");
+   afficher_pile(pile_ordonnee);
 
    printf("\n\n========== fin du testes ==========\n");
    return 0;
