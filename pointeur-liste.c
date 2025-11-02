@@ -250,6 +250,36 @@ int taille_liste_recursive(liste *maliste)
    return 1 + taille_liste_recursive(maliste->suivant);
 }
 
+liste *inserer_bonne_place_pliste(liste *maliste, int valeur){
+   liste *NE, *crt;
+   NE = (liste*)createcellule(valeur);
+
+   //existance de la liste (vide)
+   if(est_vide_liste(maliste)) return ((liste*) NE);
+
+   //insertion au debut
+   if(maliste->valeur >= valeur){
+      NE->suivant = maliste;
+      return ((liste*) NE);
+   }
+
+   // insertion au milieu ou a la fin
+   crt = maliste;
+   while(crt->suivant){
+      if (NE->valeur <= crt->suivant->valeur)
+      {
+         NE->suivant = crt->suivant;
+         // crt->suivant = NE;
+         // return ((liste*) maliste);
+         break;
+      }
+      crt = crt->suivant;
+   }
+   // insertion a la fin
+   crt->suivant = NE;
+   return ((liste*) maliste);
+}
+
 void afficher_liste(liste *maliste)
 {
    liste *current = maliste;
