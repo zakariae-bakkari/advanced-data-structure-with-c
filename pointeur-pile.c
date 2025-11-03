@@ -88,6 +88,35 @@ Pile *inserer_bonne_place_pile(Pile *pile, int valeur)
    return ((Pile *)pile);
 }
 
+int minimum_pile(Pile *pile)
+{
+   int min;
+   Pile *tmp = init_pile();
+   if (est_vide_pile(pile))
+   {
+      printf("Pile vide, pas de minimum.\n");
+      exit(-1);
+   }
+   min = pile->valeur;
+
+   // parcourir la pile pour trouver le minimum
+   while (pile->suivant) 
+   {
+      if (pile->valeur < min)
+         min = pile->valeur;
+      tmp = empiler_pile(tmp, pile->valeur);
+      pile = depiler_pile(pile);
+   }
+   // remettre les elements depiler
+   while (tmp)
+   {
+      pile = empiler_pile(pile, tmp->valeur);
+      tmp = depiler_pile(tmp);
+   }
+   free(tmp);
+   return ((int)min);
+}
+
 int recherche_recursive_pile_2(Pile *pile, int valeur, int position) // dernier element
 {
    if (est_vide_pile(pile)) //
@@ -246,6 +275,10 @@ int main()
    pile_ordonnee = inserer_bonne_place_pile(pile_ordonnee, 25);
    printf("Contenu de la pile ordonnee: ");
    afficher_pile(pile_ordonnee);
+
+   // tester la fonction minimum_pile
+   printf("\n6. trouver le minimum dans la pile.\n");
+   printf("Minimum dans la pile: %d\n", minimum_pile(pile_ordonnee));
 
    printf("\n\n========== fin du testes ==========\n");
    return 0;
