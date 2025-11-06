@@ -284,6 +284,37 @@ liste *inserer_bonne_place_pliste(liste *maliste, int valeur)
    return ((liste *)maliste);
 }
 
+liste *inserer_bonne_place_pliste_par_cellule(liste *maliste, cellule *cel){
+   liste *crt;
+
+   // existance de la liste (vide)
+   if (est_vide_liste(maliste))
+      return ((liste *)cel);
+
+   // insertion au debut
+   if (maliste->valeur >= cel->valeur)
+   {
+      cel->suivant = maliste;
+      return ((liste *)cel);
+   }
+
+   // insertion au milieu ou a la fin
+   crt = maliste;
+   while (crt->suivant)
+   {
+      if (cel->valeur <= crt->suivant->valeur)
+      {
+         cel->suivant = crt->suivant;
+         // crt->suivant = NE;
+         // return ((liste*) maliste);
+         break;
+      }
+      crt = crt->suivant;
+   }
+   // insertion a la fin
+   crt->suivant = cel;
+   return ((liste *)maliste);
+}
 // tris de la liste en utilisant l'insertion a bonne place
 liste *trier_pliste(liste *maliste)
 {
@@ -316,15 +347,13 @@ liste *concatener_listes(liste *l1, liste *l2)
       crt = l1;
       l1 = l1->suivant;
       crt->suivant = NULL;
-      l = inserer_bonne_place_pliste(l, crt->valeur);
-      free(crt);// liberer la memoire de l'element pris
+      l = inserer_bonne_place_pliste_par_cellule(l, crt);
 
       // prendre le 1er elemeent de 2eme liste
       crt = l2;
       l2 = l2->suivant;
       crt->suivant = NULL; 
-      l = inserer_bonne_place_pliste(l, crt->valeur);
-      free(crt);// liberer la memoire de l'element pris
+      l = inserer_bonne_place_pliste_par_cellule(l, crt);
    }// fin du while(l1 && l2)
 
    // ajouter les elements restants de l1
@@ -333,8 +362,7 @@ liste *concatener_listes(liste *l1, liste *l2)
       crt = l1;
       l1 = l1->suivant;
       crt->suivant = NULL;
-      l = inserer_bonne_place_pliste(l, crt->valeur);
-      free(crt);// liberer la memoire de l'element pris
+      l = inserer_bonne_place_pliste_par_cellule(l, crt);
    }
    // ajouter les elements restants de l2
    while (l2)
@@ -342,8 +370,7 @@ liste *concatener_listes(liste *l1, liste *l2)
       crt = l2;
       l2 = l2->suivant;
       crt->suivant = NULL;
-      l = inserer_bonne_place_pliste(l, crt->valeur);
-      free(crt);// liberer la memoire de l'element pris
+      l = inserer_bonne_place_pliste_par_cellule(l, crt);
    }
    return ((liste*)l);
 }
@@ -523,6 +550,12 @@ int main()
    maliste = inserer_bonne_place_pliste(maliste, 40);
    printf("Apres insertions en ordre croissant: ");
    afficher_liste(maliste);
+   //tester l'insertion par cellule
+   printf("\n7.b Test d'insertion en ordre croissant par cellule:\n");
+   cellule *cel = createcellule(25);
+   maliste = inserer_bonne_place_pliste_par_cellule(maliste, cel);
+   printf("Apres insertion de 25 par cellule en ordre croissant: "); 
+   afficher_liste(maliste);
 
    // tester la fonction trier_pliste
    printf("\n8. Test de tri de la liste:\n");
@@ -538,5 +571,36 @@ int main()
    printf("Liste triee: ");
    afficher_liste(sorted_list);
 
+   // tester la fonction concatener_listes
+   printf("\n9. Test de concatenation de deux listes:\n");
+   liste *l1 = init_null();
+   liste *l2 = init_null();
+   l1 = inserer_liste(l1, 10, 1);
+   l1 = inserer_liste(l1, 30, 1);
+   l1 = inserer_liste(l1, 50, 1);
+   // tester concatener l1 et l2 tel que l2 est vide
+   printf("Concatenation de l1 et l2 (l2 vide):\n");
+   liste *concat1 = concatener_listes(l1, l2);
+   afficher_liste(concat1);
+   l1 = init_null();
+   l1 = inserer_liste(l1, 10, 1);
+   l1 = inserer_liste(l1, 30, 1);
+   l1 = inserer_liste(l1, 50, 1);
+   
+   l2 = inserer_liste(l2, 20, 1);
+   l2 = inserer_liste(l2, 40, 1);
+   l2 = inserer_liste(l2, 60, 1);
+   // tester concatener l1 et l2
+   //afficher les deux
+   printf("Liste l1: ");
+   afficher_liste(l1);
+   printf("Liste l2: ");
+   afficher_liste(l2);
+   printf("Concatenation de l1 et l2:\n");
+   liste *concat2 = concatener_listes(l1, l2);
+   afficher_liste(concat2);
+   afficher_liste(l1); // verifier que l1 est intact
+   afficher_liste(l2); // verifier que l2 est intact
+   
    return 0;
 }
