@@ -190,6 +190,31 @@ void inserer_bonne_place_file(File *file, int valeur){
    // Libérer la file temporaire
    free(temp);
 }
+
+// tris de la file en utilisant l'insertion a bonne place
+void trier_file(File *file){
+   File *temp = init_file();
+   if (!file) {
+      printf("la file n'exist pas (pas allouer) \n");
+      return;
+   }
+   
+   while (!est_vide_file(file)) {
+      int valeur = file->tete->valeur;
+      defiler(file);
+      inserer_bonne_place_file(temp, valeur);
+   }
+   
+   // Remettre tout dans la file originale
+   while (!est_vide_file(temp)) {
+      enfiler(file, temp->tete->valeur);
+      defiler(temp);
+   }
+   
+   // Libérer la file temporaire
+   free(temp);
+}
+
 //fonction recherche recursive dans la file
 int recherche_recursive_file_2(cellule *cel, int valeur, int position)
 {
