@@ -480,5 +480,19 @@ int main()
    printf("Apres insertions en ordre croissant: ");
    afficher_liste(maliste);
 
+   // tester la fonction trier_pliste
+   printf("\n8. Test de tri de la liste:\n");
+   liste *unsorted_list = init_null();
+   unsorted_list = inserer_liste(unsorted_list, 30, 1);
+   unsorted_list = inserer_liste(unsorted_list, 10, 1);
+   unsorted_list = inserer_liste(unsorted_list, 50, 1);
+   unsorted_list = inserer_liste(unsorted_list, 20, 1);
+   unsorted_list = inserer_liste(unsorted_list, 40, 1);
+   printf("Liste non triee: ");
+   afficher_liste(unsorted_list);
+   liste *sorted_list = trier_pliste(unsorted_list);
+   printf("Liste triee: ");
+   afficher_liste(sorted_list);
+
    return 0;
 }
