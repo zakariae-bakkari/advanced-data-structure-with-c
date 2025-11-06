@@ -301,7 +301,51 @@ liste *trier_pliste(liste *maliste)
       temp = inserer_bonne_place_pliste(temp, valeur);
    }
 
-   return ((liste *) temp );
+   return ((liste *)temp);
+}
+
+// concatener deux listes
+liste *concatener_listes(liste *l1, liste *l2)
+{
+   liste *l, *crt;
+   l = (liste *)init_null();
+
+   while (l1 && l2)
+   {
+      // prendre le 1er elemeent de 1er liste
+      crt = l1;
+      l1 = l1->suivant;
+      crt->suivant = NULL;
+      l = inserer_bonne_place_pliste(l, crt->valeur);
+      free(crt);// liberer la memoire de l'element pris
+
+      // prendre le 1er elemeent de 2eme liste
+      crt = l2;
+      l2 = l2->suivant;
+      crt->suivant = NULL; 
+      l = inserer_bonne_place_pliste(l, crt->valeur);
+      free(crt);// liberer la memoire de l'element pris
+   }// fin du while(l1 && l2)
+
+   // ajouter les elements restants de l1
+   while (l1)
+   {
+      crt = l1;
+      l1 = l1->suivant;
+      crt->suivant = NULL;
+      l = inserer_bonne_place_pliste(l, crt->valeur);
+      free(crt);// liberer la memoire de l'element pris
+   }
+   // ajouter les elements restants de l2
+   while (l2)
+   {
+      crt = l2;
+      l2 = l2->suivant;
+      crt->suivant = NULL;
+      l = inserer_bonne_place_pliste(l, crt->valeur);
+      free(crt);// liberer la memoire de l'element pris
+   }
+   return ((liste*)l);
 }
 
 void afficher_liste(liste *maliste)
