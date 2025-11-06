@@ -350,7 +350,7 @@ int main()
    printf("\n\n========== Fin des tests de la file (pointeur) ==========\n\n");
 
    // Libérer la mémoire à la fin
-   free(file);
+   // free(file);
 
    // tester la fonction inserer_bonne_place_file
    printf("7. Test de la fonction inserer_bonne_place_file() :\n");
@@ -360,6 +360,11 @@ int main()
    inserer_bonne_place_file(file2, 60);
    inserer_bonne_place_file(file2, 15);
    afficher_file(file2);
+
+   // tester la fonction trier_file
+   printf("8. Test de la fonction trier_file() :\n");
+   trier_file(file);
+   afficher_file(file);
 
 
    return 0;
