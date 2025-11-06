@@ -88,6 +88,28 @@ Pile *inserer_bonne_place_pile(Pile *pile, int valeur)
    return ((Pile *)pile);
 }
 
+// tris de la pile en utilisant l'insertion a bonne place
+Pile *trier_pile(Pile *pile)
+{
+   Pile *temp = init_pile();
+   // la pile est vide, rien a trier
+   if (!pile)
+   { // verifier l'existance de la pile ou il est vide
+      printf("la pile n'exist pas (pas allouer) \n");
+      return NULL;
+   }
+
+   // parcourir la pile et inserer chaque element dans la pile temp a sa bonne place
+   while (pile)
+   {
+      int valeur = pile->valeur;
+      pile = depiler_pile(pile);
+      temp = inserer_bonne_place_pile(temp, valeur);
+   }
+   return ((Pile *)temp);
+}
+
+// trouver le minimum dans la pile
 int minimum_pile(Pile *pile)
 {
    int min;
@@ -279,6 +301,20 @@ int main()
    // tester la fonction minimum_pile
    printf("\n6. trouver le minimum dans la pile.\n");
    printf("Minimum dans la pile: %d\n", minimum_pile(pile_ordonnee));
+
+   // tester la fonction trier_pile
+   printf("\n7. trier la pile.\n");
+   Pile *pile_a_trier = init_pile();
+   pile_a_trier = empiler_pile(pile_a_trier, 50);
+   pile_a_trier = empiler_pile(pile_a_trier, 10);
+   pile_a_trier = empiler_pile(pile_a_trier, 30);
+   pile_a_trier = empiler_pile(pile_a_trier, 20);
+   pile_a_trier = empiler_pile(pile_a_trier, 40);
+   printf("Contenu de la pile avant tri: ");
+   afficher_pile(pile_a_trier);
+   pile_a_trier = trier_pile(pile_a_trier);
+   printf("Contenu de la pile apres tri: ");
+   afficher_pile(pile_a_trier);
 
    printf("\n\n========== fin du testes ==========\n");
    return 0;
