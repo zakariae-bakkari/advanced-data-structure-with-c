@@ -250,22 +250,26 @@ int taille_liste_recursive(liste *maliste)
    return 1 + taille_liste_recursive(maliste->suivant);
 }
 
-liste *inserer_bonne_place_pliste(liste *maliste, int valeur){
+liste *inserer_bonne_place_pliste(liste *maliste, int valeur)
+{
    liste *NE, *crt;
-   NE = (liste*)createcellule(valeur);
+   NE = (liste *)createcellule(valeur);
 
-   //existance de la liste (vide)
-   if(est_vide_liste(maliste)) return ((liste*) NE);
+   // existance de la liste (vide)
+   if (est_vide_liste(maliste))
+      return ((liste *)NE);
 
-   //insertion au debut
-   if(maliste->valeur >= valeur){
+   // insertion au debut
+   if (maliste->valeur >= valeur)
+   {
       NE->suivant = maliste;
-      return ((liste*) NE);
+      return ((liste *)NE);
    }
 
    // insertion au milieu ou a la fin
    crt = maliste;
-   while(crt->suivant){
+   while (crt->suivant)
+   {
       if (NE->valeur <= crt->suivant->valeur)
       {
          NE->suivant = crt->suivant;
@@ -277,7 +281,27 @@ liste *inserer_bonne_place_pliste(liste *maliste, int valeur){
    }
    // insertion a la fin
    crt->suivant = NE;
-   return ((liste*) maliste);
+   return ((liste *)maliste);
+}
+
+// tris de la liste en utilisant l'insertion a bonne place
+liste *trier_pliste(liste *maliste)
+{
+   liste *temp = init_null(); // initialiser une liste vide pour stocker les elements trier
+   if (!maliste)
+   { // verifier l'existance de la liste ou il est vide
+      printf("la liste n'exist pas (pas allouer) \n");
+      return NULL;
+   }
+
+   while (maliste)
+   {
+      int valeur = maliste->valeur;
+      maliste = supprimer(maliste, 1);
+      temp = inserer_bonne_place_pliste(temp, valeur);
+   }
+
+   return ((liste *) temp );
 }
 
 void afficher_liste(liste *maliste)
