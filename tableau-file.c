@@ -81,6 +81,20 @@ int enfiler_file(file *lafile, int valeur)
    lafile->tableau[lafile->queue] = valeur;
    return ((int)tasser); // Succès
 }
+int enfiler_file_tableau_circulaire(file *lafile, int valeur)
+{
+   int tasser = 1; // par defaut est non tasser (1 : non tasser,2:tasser)
+   // Vérifier si le tableau est existant
+   if (!lafile)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_sature_file(*lafile))
+      return ((int)-4);              //! Erreur : fille est sature
+   if (lafile->queue == maxelem - 1) //?si queue et dans la dernier element et n'est pas sature on va tasser
+      tasser = tasser_file(lafile);
+   lafile->queue++;
+   lafile->tableau[lafile->queue] = valeur;
+   return ((int)tasser); // Succès
+}
 // defiler : suppimer le debut (concept fifo first in first out)
 int defiler_file(file *lafile)
 {

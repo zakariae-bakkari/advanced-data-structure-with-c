@@ -10,7 +10,7 @@ typedef struct Pile
 } Pile;
 
 // creer la pile
-Pile *create_tpile()
+Pile *create_tpile() 
 {
    Pile *maPile = (Pile *)malloc(sizeof(Pile));
    if (!maPile)
@@ -82,9 +82,6 @@ void afficher_tpile(Pile mapile)
    int nb_elements = 0;
 
    printf("Affichage LIFO: \n");
-   //aficher touts d'abord la valeur du sommet
-   printf("l'indice du sommet = %d\n", mapile.sommet);
-
    // Phase 1: Dépiler et sauvegarder
    while (!est_vide_tpile(mapile))
    {
@@ -103,9 +100,44 @@ void afficher_tpile(Pile mapile)
    printf("\n");
 }
 
+// afficher la pile sans la modifier en utilisant une pile temporaire pour conserver le principe LIFO
+void afficher_tpile(Pile *mapile)
+{
+
+   Pile *temp;
+   init_tpile(&temp);
+
+   if (est_vide_tpile(*mapile))
+   {
+      printf("Pile vide\n");
+      return;
+   }
+
+   printf("Affichage LIFO: \n");
+   // Phase 1: Dépiler et sauvegarder
+   while (!est_vide_tpile(*mapile))
+   {
+      printf("pile[%d]=%d\n", mapile->sommet, mapile->tableau[mapile->sommet]);
+      temp = empiler_tpile(temp, mapile->tableau[mapile->sommet]);
+      depiler_tpile(&mapile);
+   }
+
+   // Phase 2: Restaurer la pile
+   for (int i = temp->sommet; i >= 0; i--)
+   {
+      empiler_tpile(&mapile, temp->tableau[temp->sommet]);
+      depiler_tpile(&temp);
+   }
+
+   printf("\n");
+}
+
+
+
 int main()
 {
    Pile *pile = create_tpile();
+   pile = empiler_tpile_passage_valeu(*pile, 5);
    int etat = init_tpile(pile);
    printf("\n\n========== Test des fonctions de la pile (tableau) ==========\n\n");
 

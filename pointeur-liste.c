@@ -286,6 +286,9 @@ liste *inserer_bonne_place_pliste(liste *maliste, int valeur)
 
 liste *inserer_bonne_place_pliste_par_cellule(liste *maliste, cellule *cel){
    liste *crt;
+   // existance de la cellule a inserer
+   if (!cel)
+      return ((liste *)maliste);
 
    // existance de la liste (vide)
    if (est_vide_liste(maliste))
@@ -311,10 +314,11 @@ liste *inserer_bonne_place_pliste_par_cellule(liste *maliste, cellule *cel){
       }
       crt = crt->suivant;
    }
-   // insertion a la fin
+   // insertion a la fin ou au milieu
    crt->suivant = cel;
    return ((liste *)maliste);
 }
+
 // tris de la liste en utilisant l'insertion a bonne place
 liste *trier_pliste(liste *maliste)
 {
@@ -333,6 +337,20 @@ liste *trier_pliste(liste *maliste)
    }
 
    return ((liste *)temp);
+}
+
+// fonction trie les valeurs saisies dans la liste en utilisant l'insertion a bonne place
+liste *saisie_valeur_pliste(liste *maliste){
+   int valeur, choix;
+   do
+   {
+      printf("Entrer une valeur a inserer dans la liste: ");
+      scanf("%d", &valeur);
+      maliste = inserer_bonne_place_pliste(maliste, valeur);
+      printf("Voulez-vous inserer une autre valeur? (1: Oui, 0: Non): ");
+      scanf("%d", &choix);
+   } while (choix == 1);
+   return ((liste *)maliste);
 }
 
 // concatener deux listes
@@ -601,6 +619,13 @@ int main()
    afficher_liste(concat2);
    afficher_liste(l1); // verifier que l1 est intact
    afficher_liste(l2); // verifier que l2 est intact
+
+   // tester la fonction saisie_valeur_pliste
+   printf("\n10. Test de saisie de valeurs avec insertion en ordre croissant:\n");
+   liste *saisie_list = init_null();
+   saisie_list = saisie_valeur_pliste(saisie_list);
+   printf("Liste apres saisie et insertion en ordre croissant: ");
+   afficher_liste(saisie_list);
    
    return 0;
 }

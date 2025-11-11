@@ -40,6 +40,21 @@ int taille_recursive_pile(Pile *pile)
    return ((int)(1 + taille_recursive_pile(pile->suivant)));
 }
 
+void test(Pile *mapile)
+{
+   mapile=mapile->suivant;
+   mapile->valeur = 7;
+   cellule *Ne = cree_cellule(5);
+   mapile->suivant = Ne;
+}
+Pile* test2(Pile *mapile)
+{
+  cellule *Ne = cree_cellule(4);
+  Ne->suivant = mapile;
+   mapile = Ne;
+   return ((Pile *)mapile);
+}
+
 // empiler
 Pile *empiler_pile(Pile *pile, int valeur)
 {
@@ -88,6 +103,32 @@ Pile *inserer_bonne_place_pile(Pile *pile, int valeur)
    return ((Pile *)pile);
 }
 
+Pile *inserer_bonne_place_pile_par_cellule(Pile *pile, cellule *cel)
+{
+   Pile *tmp = init_pile();
+   Pile *crt;
+   // depiler jusqu'a trouver la bonne place
+   while (pile)
+   {
+      if (pile->valeur >= cel->valeur)
+         break;
+      crt = pile;// reserver la cellule a deplacer
+      pile=pile->suivant;// depiler par cellule en mettant a jour le pointeur
+      tmp = empiler_pile(tmp, crt); // empiler par cellule dans la pile tmp
+   }
+
+   // empiler la nouvelle cellule
+   tmp = empiler_pile(tmp, cel);
+
+   // remettre les elements depiler
+   while (tmp)
+   {
+      pile = empiler_pile(pile, tmp); // empiler par cellule
+      tmp = depiler_pile(tmp);       // depiler par cellule
+   }
+
+   return ((Pile *)pile);
+}
 // tris de la pile en utilisant l'insertion a bonne place
 Pile *trier_pile(Pile *pile)
 {
@@ -319,3 +360,14 @@ int main()
    printf("\n\n========== fin du testes ==========\n");
    return 0;
 }
+
+// int main()
+// {
+//    Pile *maPile = init_pile();
+//    maPile = empiler_pile(maPile, 1);
+//    maPile = empiler_pile(maPile, 3);
+//    test(maPile);
+//    afficher_pile(maPile);
+//    maPile = test2(maPile);
+//    afficher_pile(maPile);
+// }
