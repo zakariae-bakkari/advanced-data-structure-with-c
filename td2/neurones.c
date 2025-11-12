@@ -70,7 +70,6 @@ void neuron(liste *l)
    // l'existance
    if (!l)
       return;
-
    int valeur, occ, rang;
    int valeur_max, occ_max, rang_max;
    int rang_global;
