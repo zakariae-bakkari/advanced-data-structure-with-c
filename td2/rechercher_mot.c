@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
+#define maxelem 50
 
 int char_is (char car){
    if (('a' <= car) && (car <= 'z')){
@@ -36,7 +38,53 @@ void transformer_phrase(){
    }
 }
 
+char eliminer_espace(){
+   char car;
+   while ((car=getchar()) == ' ');// boucler tanque la valeur entrer c'est l'espace
+
+   return ((char)car);
+}
+void rechercher_mot(){
+   char motlu[maxelem],motrech[maxelem],car;
+   int ind,cmpt=0;
+
+   printf("\nentrer le mot a chercher :");
+   scanf("%s",motrech);
+   getchar();
+
+   printf("\nenter la phrase : \n");
+
+   do
+   {
+      //enter le caracter dans debut du phrase en elimniant les espaces
+      car = eliminer_espace();
+      ind =0;//pour contstruire le mo depuis depart
+      while (car != ' ' && car != '\n')
+      {
+         motlu[ind++]=car;
+         car = getchar();//les element suivant
+      }
+
+      // finiser le motlu
+      motlu[ind]='\0';
+      if (strcmp(motrech,motlu) == 0)
+      {
+         cmpt++;//incementer l'occurence du mot
+      }
+      
+   } while (car != '\n');
+   if (cmpt>0)
+   {
+      printf(" le mot %s est trove %d fois dans la phrase",motrech,cmpt);
+   }
+   else{
+      printf(" le mot %s n'est pas trouve",motrech);
+   }
+   
+}
+
 int main(){
-   transformer_phrase();
+   // transformer_phrase();
+   rechercher_mot();
    return 0;
 }
