@@ -11,7 +11,6 @@ typedef struct cel
    struct cel *suivant; // un pointeur qui point sur l'element suivant
 } cellule;
 
-
 //* ================================ File avec pointeurs =============================== //* //
 
 // structure d'une file qui contient  deux pointeur (tete et queue) : concept FIFO
@@ -250,7 +249,7 @@ static inline void supprimer_doublon(File *file)
       file->tete = crt->suivant;
       crt->suivant = NULL;
       res->queue->suivant = crt;
-      res->queue=crt;
+      res->queue = crt;
       while (!est_vide_file(file))
       {
          crt = file->tete;
@@ -258,9 +257,7 @@ static inline void supprimer_doublon(File *file)
          {
             /* code */
          }
-         
       }
-      
    }
 }
 
@@ -327,7 +324,6 @@ static inline void afficher_file(File *file)
    }
    printf("\n");
 }
-
 
 //* ================================ liste avec pointeurs =============================== //* //
 typedef cellule liste;
@@ -767,88 +763,6 @@ void afficher_liste_recursive(liste *maliste)
    afficher_liste_recursive(maliste->suivant);
 }
 
-// Afficher le menu pour l'utilisateur
-void afficher_menu()
-{
-   printf("\n=== Menu ===\n");
-   printf("1. Inserer une valeur\n");
-   printf("2. Supprimer un element par position\n");
-   printf("3. Supprimer premiere occurrence d'une valeur\n");
-   printf("4. Supprimer toutes les occurrences d'une valeur\n");
-   printf("5. Modifier une valeur par position\n");
-   printf("6. Modifier toutes les occurrences d'une valeur\n");
-   printf("7. Afficher la liste\n");
-   printf("8. Afficher la taille de la liste\n");
-   printf("0. Quitter\n");
-   printf("Choix: ");
-}
-
-// Executer le menu interactif
-void exec()
-{
-   liste *maliste = (liste *)init_null();
-   int choix, valeur, position, nouvelle_valeur, valeur_a_changer;
-
-   do
-   {
-      afficher_menu();
-      scanf("%d", &choix);
-
-      switch (choix)
-      {
-      case 1:
-         printf("Valeur a inserer: ");
-         scanf("%d", &valeur);
-         printf("Position: ");
-         scanf("%d", &position);
-         maliste = inserer_liste(maliste, valeur, position);
-         break;
-      case 2:
-         printf("Position a supprimer: ");
-         scanf("%d", &position);
-         maliste = supprimer(maliste, position);
-         break;
-      case 3:
-         printf("Valeur a supprimer: ");
-         scanf("%d", &valeur);
-         maliste = supprimer_prem_occu(maliste, valeur);
-         break;
-      case 4:
-         printf("Valeur a supprimer: ");
-         scanf("%d", &valeur);
-         maliste = supprimer_tout_occu(maliste, valeur);
-         break;
-      case 5:
-         printf("Position a modifier: ");
-         scanf("%d", &position);
-         printf("Nouvelle valeur: ");
-         scanf("%d", &nouvelle_valeur);
-         maliste = modifier_liste(maliste, position, nouvelle_valeur);
-         break;
-      case 6:
-         printf("Valeur a chercher: ");
-         scanf("%d", &valeur_a_changer);
-         printf("Nouvelle valeur: ");
-         scanf("%d", &valeur);
-         maliste = modifier_liste_touts_valeur(maliste, valeur, valeur_a_changer);
-         break;
-      case 7:
-         afficher_liste(maliste);
-         break;
-      case 8:
-         printf("Taille de la liste: %d\n", taille_liste_recursive(maliste));
-         break;
-      case 0:
-         printf("Au revoir!\n");
-         break;
-      default:
-         printf("Choix invalide!\n");
-      }
-   } while (choix != 0);
-}
-
-
-
 
 //* ================================ pile avec pointeurs =============================== //* //
 
@@ -887,15 +801,15 @@ int taille_recursive_pile(Pile *pile)
 
 void test(Pile *mapile)
 {
-   mapile=mapile->suivant;
+   mapile = mapile->suivant;
    mapile->valeur = 7;
    cellule *Ne = cree_cellule(5);
    mapile->suivant = Ne;
 }
-Pile* test2(Pile *mapile)
+Pile *test2(Pile *mapile)
 {
-  cellule *Ne = cree_cellule(4);
-  Ne->suivant = mapile;
+   cellule *Ne = cree_cellule(4);
+   Ne->suivant = mapile;
    mapile = Ne;
    return ((Pile *)mapile);
 }
@@ -952,16 +866,16 @@ Pile *inserer_bonne_place_pile_par_cellule(Pile *pile, cellule *cel)
 {
    Pile *tmp = init_pile();
    cellule *crt;
-   
+
    // depiler jusqu'a trouver la bonne place
    while (pile)
    {
       if (pile->valeur >= cel->valeur)
          break;
-      crt = pile;                    // reserver la cellule a deplacer
-      pile = pile->suivant;          // depiler par cellule en mettant a jour le pointeur
-      crt->suivant = tmp;            // attacher la cellule a la pile tmp
-      tmp = crt;                     // mettre a jour le sommet de tmp
+      crt = pile;           // reserver la cellule a deplacer
+      pile = pile->suivant; // depiler par cellule en mettant a jour le pointeur
+      crt->suivant = tmp;   // attacher la cellule a la pile tmp
+      tmp = crt;            // mettre a jour le sommet de tmp
    }
 
    // empiler la nouvelle cellule
@@ -971,10 +885,10 @@ Pile *inserer_bonne_place_pile_par_cellule(Pile *pile, cellule *cel)
    // remettre les elements depiler
    while (tmp)
    {
-      crt = tmp;                     // sauvegarder la cellule courante
-      tmp = tmp->suivant;            // avancer tmp
-      crt->suivant = pile;           // attacher la cellule a pile
-      pile = crt;                    // mettre a jour le sommet de pile
+      crt = tmp;           // sauvegarder la cellule courante
+      tmp = tmp->suivant;  // avancer tmp
+      crt->suivant = pile; // attacher la cellule a pile
+      pile = crt;          // mettre a jour le sommet de pile
    }
 
    return ((Pile *)pile);
@@ -1013,7 +927,7 @@ int minimum_pile(Pile *pile)
    min = pile->valeur;
 
    // parcourir la pile pour trouver le minimum
-   while (pile->suivant) 
+   while (pile->suivant)
    {
       if (pile->valeur < min)
          min = pile->valeur;
@@ -1072,74 +986,620 @@ void afficher_pile(Pile *mapile)
    free(tmp);
 }
 
-// Fonction pour afficher les options du menu
-void afficherMenu()
+//* ================================ file avec tableau =============================== //* //
+
+#define TAILLE 10
+
+typedef struct Tfile
 {
-   printf("\n--- Menu des Operations de pile ---\n");
-   printf("1. Empiler (Ajouter element)\n");
-   printf("2. Depiler (Supprimer element)\n");
-   printf("3. Afficher le contenu de la pile\n");
-   printf("4. Obtenir la taille de la pile\n");
-   printf("0. Quitter\n");
-   printf("Entrez votre choix: ");
+   int tableau[TAILLE];
+   int tete;
+   int queue;
+} Tfile;
+
+// *********************************************************************************
+Tfile *create_Tfile()
+{
+   Tfile *laTfile = (Tfile *)malloc(sizeof(Tfile));
+   if (!laTfile)
+      exit(-1); //! Erreur d'allocation mémoire
+   return ((Tfile *)laTfile);
 }
 
-// Fonction pour gerer les operations du menu
-void executerMenu()
-{
-   Pile *mapile = init_pile();
-   int choix, valeur;
+// *********************************************************************************
 
-   printf("Nouvelle pile creee avec succes.\n");
+// inisialiser le tableau et tete et queue
+int init_Tfile(Tfile *laTfile)
+{
+   if (!laTfile)
+      return ((int)-1); //! Erreur : le tableau n'existe pas (utilisant un pointeur NULL)
+   laTfile->tete = 0;
+   laTfile->queue = -1;
+   return ((int)0); //* Succès
+}
+
+// *********************************************************************************
+// tester si la Tfile est vide
+int est_vide_Tfile(Tfile laTfile) // works
+{
+   return ((int)(laTfile.queue < laTfile.tete)); // Retourne 1(true) si le tableau est vide, sinon 0 (false)
+}
+
+// *********************************************************************************
+// tester si la Tfile est sature
+int est_sature_Tfile(Tfile laTfile)
+{
+   return ((int)(laTfile.queue - laTfile.tete == TAILLE - 1)); // il va returne 1 si tete + queue = max du taille - 1
+}
+
+// *********************************************************************************
+// returner le nombre d'element dans la Tfile
+int nombre_elements_Tfile(Tfile laTfile) // works
+{
+   return ((int)(laTfile.queue - laTfile.tete + 1)); // Retourne le nombre d'éléments dans le tableau
+}
+
+// *********************************************************************************
+// tasser la Tfile vers gauche pour ajouter l'espace unutilisable
+int tasser_Tfile(Tfile *laTfile)
+{
+   int ind;
+   if (!laTfile)
+      return ((int)-1); //! Erreur : la Tfile n'exist pas
+   for (ind = laTfile->tete; ind <= laTfile->queue; ind++)
+      laTfile->tableau[ind - laTfile->tete] = laTfile->tableau[ind];
+   laTfile->queue = laTfile->queue - laTfile->tete; // CHANGER LA VALEUR QUEUE
+   laTfile->tete = 0;
+
+   return ((int)2);
+}
+
+// enTfiler la Tfile: ajouter a la fin (concept FIFO: first in first out)
+int enTfiler_Tfile(Tfile *laTfile, int valeur)
+{
+   int tasser = 1; // par defaut est non tasser (1 : non tasser,2:tasser)
+   // Vérifier si le tableau est existant
+   if (!laTfile)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_sature_Tfile(*laTfile))
+      return ((int)-4);             //! Erreur : fille est sature
+   if (laTfile->queue == TAILLE - 1) //?si queue et dans la dernier element et n'est pas sature on va tasser
+      tasser = tasser_Tfile(laTfile);
+   laTfile->queue++;
+   laTfile->tableau[laTfile->queue] = valeur;
+   return ((int)tasser); // Succès
+}
+int enTfiler_Tfile_tableau_circulaire(Tfile *laTfile, int valeur)
+{
+   int tasser = 1; // par defaut est non tasser (1 : non tasser,2:tasser)
+   // Vérifier si le tableau est existant
+   if (!laTfile)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_sature_Tfile(*laTfile))
+      return ((int)-4);             //! Erreur : fille est sature
+   if (laTfile->queue == TAILLE - 1) //?si queue et dans la dernier element et n'est pas sature on va tasser
+      tasser = tasser_Tfile(laTfile);
+   laTfile->queue++;
+   laTfile->tableau[laTfile->queue] = valeur;
+   return ((int)tasser); // Succès
+}
+// deTfiler : suppimer le debut (concept fifo first in first out)
+int deTfiler_Tfile(Tfile *laTfile)
+{
+   int ind; // Indice de parcours
+   if (!laTfile)
+      return ((int)-1); //! Erreur : le tableau n'existe pas
+   if (est_vide_Tfile(*laTfile))
+      return ((int)-2); //! Erreur : le tableau est vide
+   if (laTfile->tete == laTfile->queue)
+      init_Tfile(laTfile);
+   else
+      laTfile->tete++;
+
+   return ((int)0); // Succès
+}
+
+// *********************************************************************************
+void afficher_Tfile(Tfile laTfile)
+{
+   int ind;
+   for (ind = 0; ind < TAILLE; ind++)
+   {
+      if (ind >= laTfile.tete && ind <= laTfile.queue)
+         printf("|%d", laTfile.tableau[ind]);
+      else
+         printf("| ");
+   }
+   printf("|   ");
+   printf("tete: |%d|,queue: |%d|\n", laTfile.tete, laTfile.queue);
+}
+
+//* ================================ liste avec teableau =============================== //* //
+
+// structure du tableau avec son indice du dernier element en definition leur type
+typedef struct TList
+{
+   int tab[TAILLE];
+   int indice_dr;
+} TList;
+
+// fonction de creation du tableau dynamique "allocation dynamique"
+TList *create_tab()
+{
+   TList *liste = (TList *)malloc(sizeof(TList));
+   if (!liste)
+      exit(-1); // Erreur d'allocation mémoire
+   return ((TList *)liste);
+}
+
+// inisialiser l'indice du dernier element du tableau a -1 pour indiquer qu'il est vide au debut
+int init_ttab(TList *liste)
+{
+   if (!liste)
+      return ((int)-1);   // Erreur : le tableau n'existe pas (utilisant un pointeur NULL)
+   liste->indice_dr = -1; //? Initialiser l'indice du dernier élément
+   return ((int)0);       // Succès
+}
+
+// fonction pour tester si un tableau est vide ou pas
+int est_vide_ttab(TList liste)
+{
+   return ((int)(liste.indice_dr == -1)); // Retourne 1(true) si le tableau est vide, sinon 0 (false)
+}
+
+// fonction pour obtenir le nombre d'elements dans le tableau
+int nombre_elements_ttab(TList liste)
+{
+   return ((int)(liste.indice_dr + 1)); // Retourne le nombre d'éléments dans le tableau
+}
+
+// fonction d'insertion d'une valeur a un indice specifique dans le tableau
+int insertion(TList *liste, int indice, int valeur)
+{
+   int ind; // Indice de parcours
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*liste))
+      return ((int)-2); // Erreur : le tableau est vide
+   if ((indice < 0) || (indice > liste->indice_dr + 1))
+      return ((int)-3); // Erreur : indice invalide
+   if (liste->indice_dr >= TAILLE - 1)
+      return ((int)-4); // Erreur : le tableau est sature
+
+   // Décaler les éléments vers la droite
+   for (ind = liste->indice_dr; ind >= indice; liste->tab[ind + 1] = liste->tab[ind], ind--)
+      ;
+   liste->tab[indice] = valeur;
+   liste->indice_dr++;
+   return ((int)0); // Succès
+}
+
+// fonction de suppression d'une valeur  par l'indice specifique dans le tableau
+int supprimer_ttab(TList *liste, int indice)
+{
+   int ind; // Indice de parcours
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*liste))
+      return ((int)-2); // Erreur : le tableau est vide
+   if ((indice < 0) || (indice > liste->indice_dr))
+      return ((int)-3); // Erreur : indice invalide
+
+   // decaler les elements a gauche
+   for (ind = indice; ind < liste->indice_dr; ind++)
+      liste->tab[ind] = liste->tab[ind + 1];
+   liste->indice_dr--; // Decrementer l'indice du dernier élément
+   return ((int)0);    // Succès
+}
+
+// fonction de suppression de la premiere occurence d'une valeur dans le tableau
+int supprimer_premier_occ_ttab(TList *liste, int valeur)
+{
+   int ind, indice_trouve = -1;
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*liste))
+      return ((int)-2); // Erreur : le tableau est vide
+
+   // Rechercher la première occurrence de la valeur
+   for (ind = 0; ind <= liste->indice_dr; ind++)
+   {
+      if (liste->tab[ind] == valeur)
+      {
+         indice_trouve = ind;
+         break;
+      }
+   }
+
+   if (indice_trouve == -1)
+      return ((int)-3); // Erreur : valeur non trouvée
+
+   // Supprimer l'élément à l'indice trouvé
+   for (ind = indice_trouve; ind < liste->indice_dr; ind++)
+      liste->tab[ind] = liste->tab[ind + 1];
+   liste->indice_dr--; // Decrementer l'indice du dernier élément
+   return ((int)0);    // Succès
+}
+
+// fonction de suppression de toutes les occurences d'une valeur dans le tableau
+int supprimer_tout_occurences_ttab(TList *liste, int valeur)
+{
+   int ind, count = 0;
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*liste))
+      return ((int)-2); // Erreur : le tableau est vide
+
+   ind = 0;
+   while (ind <= liste->indice_dr)
+   {
+      if (liste->tab[ind] == valeur)
+      {
+         // Supprimer l'élément à l'indice trouvé
+         for (int j = ind; j < liste->indice_dr; j++)
+            liste->tab[j] = liste->tab[j + 1];
+         liste->indice_dr--; // Decrementer l'indice du dernier élément
+         count++;
+      }
+      else
+      {
+         ind++;
+      }
+   }
+
+   if (count == 0)
+      return ((int)-3); // Erreur : valeur non trouvée
+
+   return ((int)count); // Retourne le nombre d'occurrences supprimées
+}
+
+// fonction de recherche d'une valeur dans le tableau
+int recherche_ttab(TList liste, int valeur)
+{
+   int ind;
+   for (ind = 0; ind <= liste.indice_dr; ind++)
+      if (liste.tab[ind] == valeur)
+         return ((int)ind); // Succès : valeur trouvée, retourne l'indice
+   return ((int)-1);        // Erreur : valeur non trouvée
+}
+
+// fonction d'insertion d'une valeur a la fin du tableau
+int insert_fin_ttab(TList *liste, int valeur)
+{
+   // Vérifier si le tableau est existant
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   // Vérifier si le tableau est sature
+   if (liste->indice_dr == TAILLE - 1)
+      return ((int)-2); // Erreur : le tableau est sature
+
+   liste->indice_dr++;
+   liste->tab[liste->indice_dr] = valeur;
+   return (0); // Succès
+}
+
+// fonction de remplissage du tableau interactivement avec l'utilisateur
+int remplir_ttab(TList *liste)
+{
+   int valeur, resultas;
+   char c;
+   if (!liste)          //   Verifier si le tableau est existant
+      return ((int)-1); // Erreur : le tableau n'existe pas
+
+   printf("\n===== REMPLISSAGE DU TABLEAU =====\n");
 
    do
    {
-      afficherMenu();
-      scanf("%d", &choix);
+      printf("Entrez l'element %d/%d: ", liste->indice_dr + 2, TAILLE);
+      scanf("%d", &valeur);
+      resultas = insert_fin_ttab(liste, valeur);
 
-      switch (choix)
+      if (resultas == 0)
+         printf(" -> Element %d ajoute avec succes a l'indice %d\n", valeur, liste->indice_dr);
+
+      if (liste->indice_dr < TAILLE - 1) // Verifier si le tableau est completement rempli
       {
-      case 1:
-         printf("Entrez la valeur a empiler: ");
-         scanf("%d", &valeur);
-         mapile = empiler_pile(mapile, valeur);
-         if (mapile)
-            printf("Valeur %d empilee avec succes.\n", valeur);
-         else
-            printf("Echec de l'empilage.\n");
-         break;
-
-      case 2:
-         if (!est_vide_pile(mapile))
-         {
-            mapile = depiler_pile(mapile);
-            printf("Element depile avec succes.\n");
-         }
-         else
-            printf("La pile est vide!\n");
-         break;
-
-      case 3:
-         if (!est_vide_pile(mapile))
-            afficher_pile(mapile);
-         else
-            printf("La pile est vide!\n");
-         break;
-
-      case 4:
-         printf("Taille de la pile: %d\n", taille_recursive_pile(mapile));
-         break;
-      case 0:
-         printf("Fin du programme...\n");
-         // Liberer la memoire avant de quitter
-         while (!est_vide_pile(mapile))
-            mapile = depiler_pile(mapile);
-         break;
-
-      default:
-         printf("Choix invalide! Veuillez reessayer.\n");
+         printf("\nContinuer le remplissage ? (o/n): ");
+         scanf(" %c", &c);
       }
-   } while (choix != 0);
+      else
+      {
+         printf("\nTableau completement rempli!\n");
+         break;
+      }
+      printf("\n--------------------------------\n");
+   } while (((c != 'n') && (c != 'N')));
+
+   printf("\n===== FIN DU REMPLISSAGE =====\n");
+   return ((int)0); // Succès
+}
+
+// fonction d'affichage du tableau
+void afficher_ttab(TList liste)
+{
+   int ind;
+
+   for (ind = 0; ind < TAILLE; ind++)
+      if (ind > liste.indice_dr)
+         printf("| ");
+      else
+         printf("|%d", liste.tab[ind]);
+}
+
+// fonction de modification d'une valeur a un indice specifique dans le tableau
+int modifier_ttab(TList *liste, int indice, int valeur)
+{
+   int ind;
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*liste))
+      return ((int)-2); // Erreur : le tableau est vide
+   if ((indice < 0) || (indice > liste->indice_dr))
+      return ((int)-3); // Erreur : indice invalide
+   liste->tab[indice] = valeur;
+   return ((int)0); // Succès
+}
+
+// fonction de modification de la premier occurence d'une valeur dans le tableau
+int modifier_premier_occ_ttab(TList *liste, int ancienne_valeur, int nouvelle_valeur)
+{
+   int ind, indice_trouve = -1;
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*liste))
+      return ((int)-2); // Erreur : le tableau est vide
+
+   // Rechercher la première occurrence de l'ancienne valeur
+   for (ind = 0; ind <= liste->indice_dr; ind++)
+   {
+      if (liste->tab[ind] == ancienne_valeur)
+      {
+         indice_trouve = ind;
+         break;
+      }
+   }
+
+   if (indice_trouve == -1)
+      return ((int)-3); // Erreur : valeur non trouvée
+
+   // Modifier l'élément à l'indice trouvé
+   liste->tab[indice_trouve] = nouvelle_valeur;
+   return ((int)0); // Succès
+}
+
+// focntion de modification de toutes les occurences d'une valeur dans le tableau
+int modifier_tout_occurences_ttab(TList *liste, int ancienne_valeur, int nouvelle_valeur)
+{
+   int ind, count = 0;
+   if (!liste)
+      return ((int)-1); // Erreur : le tableau n'existe pas
+   if (est_vide_ttab(*liste))
+      return ((int)-2); // Erreur : le tableau est vide
+
+   // Parcourir le tableau pour modifier toutes les occurrences
+   for (ind = 0; ind <= liste->indice_dr; ind++)
+   {
+      if (liste->tab[ind] == ancienne_valeur)
+      {
+         liste->tab[ind] = nouvelle_valeur;
+         count++;
+      }
+   }
+
+   if (count == 0)
+      return ((int)-3); // Erreur : valeur non trouvée
+
+   return ((int)count); // Retourne le nombre d'occurrences modifiées
+}
+
+// ====== Menu pour les fonctions  ======
+int menu2()
+{
+   printf("\n===== MENU =====\n");
+   printf("1. Remplir le tableau\n");
+   printf("2. Afficher le tableau\n");
+   printf("3. Rechercher une valeur dans le tableau\n");
+   printf("4. Inserer une valeur dans le tableau\n");
+   printf("5. Supprimer une valeur dans le tableau\n");
+   printf("6. Modifier une valeur dans le tableau\n");
+   printf("7. Nombre d'elements dans le tableau\n");
+   printf("8. Quitter\n");
+   printf("================\n");
+   int choix;
+   // en demande d'ecrire jusqu'au le nombre choisir est compris entre 1 et 8 (inclus 1 et 8)
+   do
+   {
+      printf("Entrez votre choix: ");
+      scanf("%d", &choix);
+   } while (choix < 1 || choix > 8);
+   return choix;
+}
+
+// === fonction des messages d'errors ===
+void errors_message_ttab(int nombre)
+{
+   switch (nombre)
+   {
+   case -1:
+      printf("Le tableau n'existe pas.\n");
+      break;
+   case -2:
+      printf("Le tableau est vide.\n");
+      break;
+   case -3:
+      printf("Indice invalide.\n");
+      break;
+   case -4:
+      printf("Le tableau est sature.\n");
+      break;
+
+   default:
+      printf("problem inconue\n");
+      break;
+   }
+}
+
+
+
+
+
+
+//* ================================ pile avec tableau =============================== //* //
+
+
+
+// Definition de la structure Tpile
+typedef struct Tpile
+{
+   int tableau[TAILLE];
+   int sommet;
+} Tpile;
+
+// creer la pile
+Tpile *create_tpile()
+{
+   Tpile *maTpile = (Tpile *)malloc(sizeof(Tpile));
+   if (!maTpile)
+   {
+      printf("Erreur de mémoire !\n");
+      exit(0);
+   }
+   return maTpile;
+}
+
+// initialiser la pile
+int init_tpile(Tpile *maTpile)
+{
+   // tester l'existance
+   if (!maTpile)
+      return ((int)-1);
+   maTpile->sommet = -1; // initialiser le sommet a -1
+   return 1;
+}
+
+// test de vide
+int est_vide_tpile(Tpile maTpile)
+{
+   return ((int)maTpile.sommet == -1);
+}
+
+// test de saturatoin
+int est_sature_tpile(Tpile mapile)
+{
+   return ((int)(mapile.sommet) == (TAILLE - 1));
+}
+
+// empiler
+int empiler_tpile(Tpile *mapile, int valeur)
+{
+   // tester l'existance
+   if (!mapile)
+      return ((int)-1);
+   // tester saturation
+   if (est_sature_tpile(*mapile))
+      return ((int)-2);
+
+   mapile->tableau[++(mapile->sommet)] = valeur;
+   return ((int)1);
+}
+
+// depiler
+int depiler_tpile(Tpile *mapile)
+{
+   // tester l'existance
+   if (!mapile)
+      return ((int)-1);
+   // tester si il est vide
+   if (est_vide_tpile(*mapile))
+      return ((int)-3);
+   (mapile->sommet)--;
+   return ((int)1);
+}
+
+// afficher la pile sans la modifier en utilisant une pile temporaire pour conserver le principe LIFO
+void afficher_tpile(Tpile mapile)
+{
+   if (est_vide_tpile(mapile))
+   {
+      printf("Tpile vide\n");
+      return;
+   }
+
+   // Sauvegarder les valeurs dans un tableau temporaire
+   int temp[TAILLE];
+   int nb_elements = 0;
+
+   printf("Affichage LIFO: \n");
+   // Phase 1: Dépiler et sauvegarder
+   while (!est_vide_tpile(mapile))
+   {
+      temp[nb_elements] = mapile.tableau[mapile.sommet];
+      printf("pile[%d]=%d\n", mapile.sommet, temp[nb_elements]);
+      depiler_tpile(&mapile);
+      nb_elements++;
+   }
+
+   // Phase 2: Restaurer la pile
+   for (int i = nb_elements - 1; i >= 0; i--)
+   {
+      empiler_tpile(&mapile, temp[i]);
+   }
+
+   printf("\n");
+}
+
+// afficher la pile sans la modifier en utilisant une pile temporaire pour conserver le principe LIFO
+
+// Simpler version using array instead of another pile
+void afficher_tpile2(Tpile *mapile)
+{
+   if (est_vide_tpile(*mapile))
+   {
+      printf("Tpile vide\n");
+      return;
+   }
+
+   // Save values in temporary array
+   int temp[TAILLE];
+   int count = 0;
+   
+   printf("Affichage LIFO: \n");
+   
+   // Phase 1: Save and display
+   while (!est_vide_tpile(*mapile))
+   {
+      temp[count] = mapile->tableau[mapile->sommet];
+      printf("pile[%d]=%d\n", mapile->sommet, temp[count]);
+      depiler_tpile(mapile);
+      count++;
+   }
+
+   // Phase 2: Restore pile
+   for (int i = count - 1; i >= 0; i--)
+   {
+      empiler_tpile(mapile, temp[i]);
+   }
+   
+   printf("\n");
+}
+// Fonction pour empiler par passage de valeur (retourne une nouvelle pile)
+static inline Tpile *empiler_tpile_passage_valeu(Tpile pile, int valeur)
+{
+   Tpile *nouvelle_pile = create_tpile();
+   if (!nouvelle_pile)
+      return NULL;
+   
+   // Copier la pile originale
+   *nouvelle_pile = pile;
+   
+   // Empiler la nouvelle valeur
+   int result = empiler_tpile(nouvelle_pile, valeur);
+   if (result != 1) {
+      free(nouvelle_pile);
+      return NULL;
+   }
+   
+   return nouvelle_pile;
 }
 
 

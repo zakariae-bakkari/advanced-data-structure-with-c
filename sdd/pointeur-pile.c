@@ -1,4 +1,5 @@
 #include "header.h"
+
 int main()
 {
    Pile *maPile = init_pile();
