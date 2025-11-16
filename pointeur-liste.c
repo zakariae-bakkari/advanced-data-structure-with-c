@@ -284,7 +284,8 @@ liste *inserer_bonne_place_pliste(liste *maliste, int valeur)
    return ((liste *)maliste);
 }
 
-liste *inserer_bonne_place_pliste_par_cellule(liste *maliste, cellule *cel){
+liste *inserer_bonne_place_pliste_par_cellule(liste *maliste, cellule *cel)
+{
    liste *crt;
    // existance de la cellule a inserer
    if (!cel)
@@ -340,7 +341,8 @@ liste *trier_pliste(liste *maliste)
 }
 
 // fonction trie les valeurs saisies dans la liste en utilisant l'insertion a bonne place
-liste *saisie_valeur_pliste(liste *maliste){
+liste *saisie_valeur_pliste(liste *maliste)
+{
    int valeur, choix;
    do
    {
@@ -370,9 +372,9 @@ liste *concatener_listes(liste *l1, liste *l2)
       // prendre le 1er elemeent de 2eme liste
       crt = l2;
       l2 = l2->suivant;
-      crt->suivant = NULL; 
+      crt->suivant = NULL;
       l = inserer_bonne_place_pliste_par_cellule(l, crt);
-   }// fin du while(l1 && l2)
+   } // fin du while(l1 && l2)
 
    // ajouter les elements restants de l1
    while (l1)
@@ -390,9 +392,34 @@ liste *concatener_listes(liste *l1, liste *l2)
       crt->suivant = NULL;
       l = inserer_bonne_place_pliste_par_cellule(l, crt);
    }
-   return ((liste*)l);
+   return ((liste *)l);
 }
 
+void supprimer_doublons(liste *maliste)
+{
+   liste *crt = maliste;
+   liste *crt2, *cellule_a_supprimer;
+   if (!maliste)
+      return NULL;
+   while (crt)
+   {
+      crt2 = crt;
+      while (crt2->suivant)
+      {
+         if (crt->valeur == crt2->suivant->valeur)
+         {
+            cellule_a_supprimer = crt2->suivant;
+            crt2->suivant = cellule_a_supprimer->suivant;
+            free(cellule_a_supprimer);
+         }
+         else
+         {
+            crt2 = crt2->suivant;
+         }
+      }
+      crt = crt->suivant;
+   }
+}
 void afficher_liste(liste *maliste)
 {
    liste *current = maliste;
@@ -568,11 +595,11 @@ int main()
    maliste = inserer_bonne_place_pliste(maliste, 40);
    printf("Apres insertions en ordre croissant: ");
    afficher_liste(maliste);
-   //tester l'insertion par cellule
+   // tester l'insertion par cellule
    printf("\n7.b Test d'insertion en ordre croissant par cellule:\n");
    cellule *cel = createcellule(25);
    maliste = inserer_bonne_place_pliste_par_cellule(maliste, cel);
-   printf("Apres insertion de 25 par cellule en ordre croissant: "); 
+   printf("Apres insertion de 25 par cellule en ordre croissant: ");
    afficher_liste(maliste);
 
    // tester la fonction trier_pliste
@@ -604,12 +631,12 @@ int main()
    l1 = inserer_liste(l1, 10, 1);
    l1 = inserer_liste(l1, 30, 1);
    l1 = inserer_liste(l1, 50, 1);
-   
+
    l2 = inserer_liste(l2, 20, 1);
    l2 = inserer_liste(l2, 40, 1);
    l2 = inserer_liste(l2, 60, 1);
    // tester concatener l1 et l2
-   //afficher les deux
+   // afficher les deux
    printf("Liste l1: ");
    afficher_liste(l1);
    printf("Liste l2: ");
@@ -626,6 +653,6 @@ int main()
    saisie_list = saisie_valeur_pliste(saisie_list);
    printf("Liste apres saisie et insertion en ordre croissant: ");
    afficher_liste(saisie_list);
-   
+
    return 0;
 }

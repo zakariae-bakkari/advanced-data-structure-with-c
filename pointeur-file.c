@@ -77,7 +77,7 @@ int enfiler(File *file, int valeur)
    if (!file)
    {
       printf("la file n'exist pas (pas allouer) \n");
-      return ((int) -1);
+      return ((int)-1);
    }
    cellule *nouvelleCellule = creeCellule(valeur);
 
@@ -85,7 +85,7 @@ int enfiler(File *file, int valeur)
    if (!nouvelleCellule)
    {
       printf("Erreur d'allocation memoire pour la nouvelle cellule \n");
-      return ((int) -2); // Error d'allocation
+      return ((int)-2); // Error d'allocation
    }
 
    // si la file est vide
@@ -98,7 +98,7 @@ int enfiler(File *file, int valeur)
       file->queue->suivant = nouvelleCellule; // l'element suivant de la queue pointe sur la nouvelle cellule
       file->queue = nouvelleCellule;          // la queue pointe sur la nouvelle cellule
    }
-   return ((int) 1); // succes
+   return ((int)1); // succes
 }
 
 // fonction pour defiler la file : supprimer du debut
@@ -110,14 +110,14 @@ int defiler(File *file)
       printf("la file n'exist pas (pas allouer) \n");
       return ((int)-1); // Error d'allocation
    }
-   
+
    // verifer si la file est vide
    if (est_vide_file(file))
    {
       printf("la file est vide \n");
       return ((int)-2); // Error file vide
    }
-   
+
    // defiler l'element du tete en resurvant l'adresse de la cellule a supprimer
    cellule *cellule_a_supprimer = file->tete; // sauvegarder l'adresse de la tete
    file->tete = file->tete->suivant;
@@ -128,94 +128,137 @@ int defiler(File *file)
       file->queue = NULL;
    }
 
-   free(cellule_a_supprimer);      // liberer la memoire de la cellule supprimer
-   return ((int)1); // succes
+   free(cellule_a_supprimer); // liberer la memoire de la cellule supprimer
+   return ((int)1);           // succes
 }
 
 // insertion a bonne place dans la file
-void inserer_bonne_place_file(File *file, int valeur){
+void inserer_bonne_place_file(File *file, int valeur)
+{
    File *temp = init_file();
-   if (!file) {
+   if (!file)
+   {
       printf("la file n'exist pas (pas allouer) \n");
       return;
    }
-   
+
    // Cas 1: File vide
-   if (est_vide_file(file)) {
+   if (est_vide_file(file))
+   {
       enfiler(file, valeur);
       free(temp);
       return;
    }
-   
+
    // Cas 2: Insertion au debut
-   if (valeur < file->tete->valeur) {
+   if (valeur < file->tete->valeur)
+   {
       cellule *NE = creeCellule(valeur);
-      if (NE) {
+      if (NE)
+      {
          NE->suivant = file->tete;
          file->tete = NE;
       }
       free(temp);
       return;
    }
-   
+
    // Cas 3: Insertion a la fin
-   if (valeur >= file->queue->valeur) {
+   if (valeur >= file->queue->valeur)
+   {
       enfiler(file, valeur);
       free(temp);
       return;
    }
-   
+
    // Cas 4: Insertion au milieu
    // Défiler jusqu'à trouver la bonne place
-   while (!est_vide_file(file) && file->tete->valeur < valeur) {
+   while (!est_vide_file(file) && file->tete->valeur < valeur)
+   {
       enfiler(temp, file->tete->valeur);
       defiler(file);
    }
-   
+
    // Insérer la nouvelle valeur
    enfiler(temp, valeur);
-   
+
    // Transférer le reste
-   while (!est_vide_file(file)) {
+   while (!est_vide_file(file))
+   {
       enfiler(temp, file->tete->valeur);
       defiler(file);
    }
-   
-   //Remettre tout dans la file originale
-   while (!est_vide_file(temp)) {
+
+   // Remettre tout dans la file originale
+   while (!est_vide_file(temp))
+   {
       enfiler(file, temp->tete->valeur);
       defiler(temp);
    }
-   
+
    // Libérer la file temporaire
    free(temp);
 }
 
 // tris de la file en utilisant l'insertion a bonne place
-void trier_file(File *file){
+void trier_file(File *file)
+{
    File *temp = init_file();
-   if (!file) {
+   if (!file)
+   {
       printf("la file n'exist pas (pas allouer) \n");
       return;
    }
-   
-   while (!est_vide_file(file)) {
+
+   while (!est_vide_file(file))
+   {
       int valeur = file->tete->valeur;
       defiler(file);
       inserer_bonne_place_file(temp, valeur);
    }
-   
+
    // Remettre tout dans la file originale
-   while (!est_vide_file(temp)) {
+   while (!est_vide_file(temp))
+   {
       enfiler(file, temp->tete->valeur);
       defiler(temp);
    }
-   
+
    // Libérer la file temporaire
    free(temp);
 }
 
-//fonction recherche recursive dans la file
+void supprimer_doublon(File *file)
+{
+   cellule *crt;
+   File *temp = init_file();
+   File *res = init_file();
+   if (!file)
+      return;
+   if (est_vide_file(file))
+      return;
+
+   while (!est_vide_file(file))
+   {
+      crt = file->tete;
+      file->tete = crt->suivant;
+      crt->suivant = NULL;
+      res->queue->suivant = crt;
+      res->queue=crt;
+      while (!est_vide_file(file))
+      {
+         crt = file->tete;
+         if (crt->valeur != res->tete->valeur)
+         {
+            /* code */
+         }
+         
+      }
+      
+   }
+}
+
+// fonction recherche recursive dans la file
 int recherche_recursive_file_2(cellule *cel, int valeur, int position)
 {
    if (cel == NULL)
@@ -345,7 +388,6 @@ int main()
    else
       printf("Valeur %d non trouvee dans la file.\n", valeur_recherchee);
    afficher_file(file);
-   
 
    printf("\n\n========== Fin des tests de la file (pointeur) ==========\n\n");
 
@@ -365,7 +407,6 @@ int main()
    printf("8. Test de la fonction trier_file() :\n");
    trier_file(file);
    afficher_file(file);
-
 
    return 0;
 }
