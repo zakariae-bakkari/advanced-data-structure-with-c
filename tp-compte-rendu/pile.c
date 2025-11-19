@@ -202,7 +202,7 @@ int vider_tpile(Pile *maPile) {
 // Description : Teste toutes les fonctionnalites de la pile avec la methode de la case libre.
 int main() {
     // === CREATION ET INITIALISATION ===
-    printf("\n========== Test de la pile (methode de la case libre utilisee pour affichage) ==========\n\n");
+    printf("\n\n========== Test de la pile (methode de la case libre utilisee pour affichage) ==========\n\n");
     
     Pile *pile = create_tpile();
     int etat = init_tpile(pile);

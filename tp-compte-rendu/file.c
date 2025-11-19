@@ -157,6 +157,7 @@ int inserer_bonposition_tfile(tfile* f, int val)
 /// Programme principal
 int main()
 {
+    printf("\n\n========== Test de la file avec tableau cerc ==========\n\n");
     tfile* mafile = creer_tfile();
 
     printf("File vide ? %d\n", est_vide_tfile(*mafile));
@@ -184,5 +185,6 @@ int main()
     else
         printf("Valeur non trouvée.\n");
 
+        printf("\n\n========== Fin de Test ==========\n\n");
     return 0;
 }
